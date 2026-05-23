@@ -55,6 +55,7 @@ This repository will house your code for all six labs:
 
 ---
 
-## Mastery Issues Backlog
-Detailed Linear issues are saved in [linear_backlog_labs.md](linear_backlog_labs.md).
-Specific Markdown descriptions for all issue imports are located under `/docs/issues/` for easy tracking.
+## Mastery Issues Backlog & Hackathon Preparation
+- Detailed Linear issues are saved in [linear_backlog_labs.md](linear_backlog_labs.md).
+- Specific Markdown descriptions for all issue imports are located under `/docs/issues/` for easy tracking.
+- Your strategic transition and readiness plan is documented in [docs/hackathon_action_plan.md](docs/hackathon_action_plan.md).
