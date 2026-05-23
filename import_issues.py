@@ -33,7 +33,7 @@ for idx, section in enumerate(sections):
     if not title_match:
         continue
     
-    label_tag = title_match.group(1)  # e.g., "Lab-1.1"
+    label_tag = title_match.group(1)  # e.g., "Lab-4.1"
     raw_title = title_match.group(2).strip()
     full_title = f"[{label_tag}] {raw_title}"
     
@@ -47,29 +47,32 @@ for idx, section in enumerate(sections):
     estimate_val = estimate_match.group(1) if estimate_match else "1"
     
     # Parse description (content after the metadata block)
-    # The description starts after the list bullet for Description:
     desc_start_match = re.search(r"\*\s+Description:\s*\n", section, re.IGNORECASE)
     if desc_start_match:
         description_text = section[desc_start_match.end():].strip()
     else:
-        # Fallback
         description_text = section.strip()
         
     issue_filename = f"{label_tag.lower().replace('.', '_')}.md"
     desc_file_path = os.path.join(DOCS_DIR, issue_filename)
     
+    # Write the issue markdown file
     with open(desc_file_path, "w") as df:
         df.write(description_text)
         
-    issues.append({
-        "title": full_title,
-        "priority": priority_val,
-        "estimate": estimate_val,
-        "desc_file": desc_file_path,
-        "tag": label_tag
-    })
+    # Check if this is a newly added issue (Lab-4, Lab-5, Lab-6)
+    is_new = any(label_tag.startswith(prefix) for prefix in ["Lab-4", "Lab-5", "Lab-6"])
+    
+    if is_new:
+        issues.append({
+            "title": full_title,
+            "priority": priority_val,
+            "estimate": estimate_val,
+            "desc_file": desc_file_path,
+            "tag": label_tag
+        })
 
-print(f"Parsed {len(issues)} issues. Starting Linear import...")
+print(f"Parsed and wrote doc files. Found {len(issues)} new issues to import to Linear...")
 
 for issue in issues:
     cmd = [

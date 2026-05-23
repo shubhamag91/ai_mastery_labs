@@ -226,3 +226,206 @@ These issues are actively synced to your **Lab** project on Linear.
     - [ ] Write 25+ test cases representing validation tasks.
     - [ ] Assert that the model output is strictly valid JSON matching your schema.
     - [ ] Assert that inference latency for responses stays under defined limits.
+
+---
+
+## 🛠️ Lab 4: The Local "AI Executive Assistant" (MCP & Custom Tool Use)
+
+### [Lab-4.1] Setup FastMCP Server and Build Weather Fetching Tool
+*   **Tag:** `Lab`
+*   **Priority:** High
+*   **Estimate:** 2h
+*   **Description:**
+    Initialize your local MCP server environment and build your first custom tool to fetch live weather forecasts from a public API.
+
+    #### Tasks:
+    - [ ] Create a virtual environment and install `mcp` (FastMCP).
+    - [ ] Write a Python tool function `get_local_weather(city)` annotated with `@mcp.tool()`.
+    - [ ] Use `requests` or `httpx` to retrieve live data from `https://wttr.in/` (or a similar free weather service) and format the text.
+    - [ ] Run the FastMCP server in development mode.
+
+    #### 🎓 Learning Checkpoint:
+    *   **Self-Check Question:** What is the purpose of the docstring in the `@mcp.tool()` function? How does Claude/GPT use it to understand what the tool does?
+
+---
+
+### [Lab-4.2] Build Local Todo List Operations Tool
+*   **Tag:** `Lab`
+*   **Priority:** High
+*   **Estimate:** 2h
+*   **Description:**
+    Add a local file-writing tool to your custom FastMCP server, allowing the agent to read and append to a raw text file on your filesystem.
+
+    #### Tasks:
+    - [ ] Write a Python tool function `append_to_todo_list(task, priority)` annotated with `@mcp.tool()`.
+    - [ ] Implement file lock/handling logic to safely write tasks into a local `todo.txt` on your Desktop.
+    - [ ] Add a companion tool `read_todo_list()` to read and return the contents of `todo.txt` in a formatted structure.
+
+    #### 🎓 Learning Checkpoint:
+    *   **Self-Check Question:** What security risks are associated with letting an LLM write or edit files directly on your local system? How does the MCP client permission dialog mitigate this?
+
+---
+
+### [Lab-4.3] Test and Debug MCP Server via MCP Inspector
+*   **Tag:** `Lab`
+*   **Priority:** Medium
+*   **Estimate:** 1h
+*   **Description:**
+    Use the official Model Context Protocol Inspector to visually test, debug, and validate your tools' input schemas and outputs in isolation.
+
+    #### Tasks:
+    - [ ] Start your FastMCP server in your terminal.
+    - [ ] Boot the inspector dashboard using `npx @modelcontextprotocol/inspector`.
+    - [ ] Call `get_local_weather` with test inputs and inspect the JSON schema validation.
+    - [ ] Call `append_to_todo_list` and verify the output payload is correct and matches FastMCP specs.
+
+    #### 🎓 Learning Checkpoint:
+    - **Destructive Testing:** Send null or malformed data inside the inspector to your todo tool. Analyze the JSON-RPC error responses returned to the client and fix any unhandled exceptions.
+
+---
+
+### [Lab-4.4] Configure Claude Code/Cursor Integration and Live Run
+*   **Tag:** `Lab`
+*   **Priority:** High
+*   **Estimate:** 1h
+*   **Description:**
+    Connect your local FastMCP server directly into your AI editor (Claude Code or Cursor) and run a complex instruction involving both tools.
+
+    #### Tasks:
+    - [ ] Update your local `mcp.json` file to reference your new FastMCP command and arguments.
+    - [ ] Launch Claude Code or Cursor and verify the server is listed as connected.
+    - [ ] Run a live test prompt: *"Check the weather in Tokyo. If it's raining, add 'Buy an umbrella' to my todo list with High priority."*
+    - [ ] Confirm `todo.txt` is updated correctly and the agent reports success.
+
+---
+
+## 📂 Lab 5: The "Resume Scout" Pipeline (Structured Output & Caching)
+
+### [Lab-5.1] Define Pydantic Schema and Build JSON Extractor Agent
+*   **Tag:** `Lab`
+*   **Priority:** High
+*   **Estimate:** 2h
+*   **Description:**
+    Define a strict data schema using Pydantic and write a script to extract unstructured resume text into a structured JSON object.
+
+    #### Tasks:
+    - [ ] Install the `openai` or `anthropic` Python SDK.
+    - [ ] Define a Pydantic class `DeveloperProfile` containing lists of skills (name, years), experiences, and education.
+    - [ ] Write a script that reads raw resume text and uses tool-calling/structured-outputs to return a validated `DeveloperProfile` instance.
+
+    #### 🎓 Learning Checkpoint:
+    *   **Self-Check Question:** Why is Pydantic validation crucial when processing LLM-generated JSON outputs? What happens in your code if the LLM skips a required field?
+
+---
+
+### [Lab-5.2] Integrate Anthropic Ephemeral Prompt Caching
+*   **Tag:** `Lab`
+*   **Priority:** High
+*   **Estimate:** 1h
+*   **Description:**
+    Optimize your extraction pipeline costs and speed by implementing ephemeral Prompt Caching for the static schema and system instructions.
+
+    #### Tasks:
+    - [ ] Modify your extraction script to use Anthropic's Messages API.
+    - [ ] Inject a large system prompt containing your strict rules and schema definitions.
+    - [ ] Add the `"cache_control": {"type": "ephemeral"}` parameter to the static prompt blocks.
+    - [ ] Run sequential requests and inspect the token usage metadata to confirm cache hits.
+
+    #### 🎓 Learning Checkpoint:
+    - **Destructive Testing:** Send very short requests separated by 10 minutes. Check your cache hit statistics. Study the lifetime of the cache and how pricing scales with call frequency.
+
+---
+
+### [Lab-5.3] Integrate Local ChromaDB to Store Profiles
+*   **Tag:** `Lab`
+*   **Priority:** High
+*   **Estimate:** 2h
+*   **Description:**
+    Create a local semantic index using ChromaDB (or a simple SQLite vector store) to save candidate profiles and their text representation embeddings.
+
+    #### Tasks:
+    - [ ] Install `chromadb` (or use a lightweight SQLite schema with vector similarity).
+    - [ ] Write an embeddings generation function using OpenAI's embedding API.
+    - [ ] Extract profiles, generate embeddings for their aggregated skills/work history, and insert them into your local ChromaDB collection.
+
+    #### 🎓 Learning Checkpoint:
+    *   **Self-Check Question:** What is an embedding vector? How does a vector database find records that are "semantically similar" without performing exact keyword matching?
+
+---
+
+### [Lab-5.4] Build Query CLI for Semantic Candidate Search
+*   **Tag:** `Lab`
+*   **Priority:** Medium
+*   **Estimate:** 2h
+*   **Description:**
+    Build a local command-line interface that allows you to query your candidate database in natural language and prints matching structured developer profiles.
+
+    #### Tasks:
+    - [ ] Create a CLI script `search.py` that takes a query string argument.
+    - [ ] Embed the query string, perform a similarity search in ChromaDB, and retrieve matching metadata.
+    - [ ] Format and print the resulting developer profile JSON beautifully in the terminal.
+
+---
+
+## 🤖 Lab 6: The "Competitor Intelligence" Crew (Agentic Workflows)
+
+### [Lab-6.1] Setup CrewAI Project and Configure LLM Clients
+*   **Tag:** `Lab`
+*   **Priority:** High
+*   **Estimate:** 1h
+*   **Description:**
+    Set up the foundational workspace environment for your multi-agent team, configuring API keys and CrewAI framework variables.
+
+    #### Tasks:
+    - [ ] Install `crewai` and `crewai-tools`.
+    - [ ] Create a virtual environment and verify package dependencies.
+    - [ ] Set up env variables (`OPENAI_API_KEY` or `ANTHROPIC_API_KEY`) in a local `.env`.
+
+---
+
+### [Lab-6.2] Create Specialized Research & Competitor Analyst Agents
+*   **Tag:** `Lab`
+*   **Priority:** High
+*   **Estimate:** 2h
+*   **Description:**
+    Define the specific roles, goals, backstories, and LLM backends for your research and analysis agents, giving them distinct instructions.
+
+    #### Tasks:
+    - [ ] Create a `Research Agent` with a backstory focused on deep data mining, query drafting, and web intelligence gathering.
+    - [ ] Create a `Competitor Analyst Agent` with a backstory focused on business strategy, comparative matrices, and SWOT formatting.
+    - [ ] Bind specific system prompts and temperature configurations to each agent.
+
+    #### 🎓 Learning Checkpoint:
+    *   **Self-Check Question:** How does CrewAI use agent backstories to steer the behavior of LLMs? What happens to agent collaboration if their goals overlap too closely?
+
+---
+
+### [Lab-6.3] Define Sequenced Research & Analysis Tasks with Search Tools
+*   **Tag:** `Lab`
+*   **Priority:** High
+*   **Estimate:** 2h
+*   **Description:**
+    Equip your Research Agent with a search tool (like Serper or Brave Search) and define the sequenced tasks that they must perform.
+
+    #### Tasks:
+    - [ ] Register a free search API key (Serper or Brave).
+    - [ ] Create search tools and assign them exclusively to the Research Agent.
+    - [ ] Define the `Research Task` (gather raw competitor data) and the `Analysis Task` (compile comparative matrices).
+    - [ ] Link the tasks together, ensuring that the second task uses the output of the first as its input.
+
+    #### 🎓 Learning Checkpoint:
+    - **Destructive Testing:** Revoke the search tool key or supply a faulty search API response. Run the crew and observe how the Research Agent attempts to recover or fail gracefully.
+
+---
+
+### [Lab-6.4] Execute Crew and Generate Comparative Markdown/SWOT Reports
+*   **Tag:** `Lab`
+*   **Priority:** Medium
+*   **Estimate:** 1h
+*   **Description:**
+    Run the fully configured multi-agent crew on a target software topic and output a beautifully structured competitor intelligence report.
+
+    #### Tasks:
+    - [ ] Write the execution block that starts the Crew with inputs (e.g., `"Cursor vs Windsurf vs Claude Code"`).
+    - [ ] Compile the output of the Analyst Agent into a markdown report file `competitor_briefing.md`.
+    - [ ] Verify the report has a clean comparative table and a full SWOT analysis.
