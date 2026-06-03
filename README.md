@@ -23,15 +23,16 @@ The target here is **tool fluency through doing** — understanding the internal
 
 ---
 
-## The Learning Framework: "Active Sandbox"
+## The Learning Framework: "Guided Mentor Protocol"
 
-To ensure maximum educational value, each lab is built around three learning components — not just a code checklist:
+This repository is designed for **Step-by-Step Conceptual Learning**. The AI acts as your senior developer and mentor. 
 
-- 🧠 **Concept Deep Dives** — Understand *why* an engineering choice is made before writing a line of code (e.g., why pgvector vs. a dedicated vector DB, why stateful graphs vs. simple chains).
-- ❓ **Self-Check Theory Questions** — Conceptual "speed bumps" you must be able to answer to verify you've internalized the internals (e.g., KV cache mechanics, HNSW index tradeoffs).
-- 💥 **Destructive Debugging Exercises** — Instructions to *deliberately break* your system in a controlled environment. Seeing exactly how and why something fails is the fastest path to truly mastering it.
+- 🛠️ **Step-by-Step Pacing:** Instead of dumping an entire finished lab at once, the AI builds one small piece of the architecture at a time.
+- 🧠 **Beginner-Friendly Concept Dives:** Before moving to the next piece, the AI stops to explain *what* that code does and *why* it works using simple, beginner-friendly analogies.
+- ❓ **Continuous Check-ins:** The AI ensures you fully understand how the components connect before writing the next piece of logic.
+- 💥 **Destructive Debugging Exercises:** Practical instructions to *deliberately break* the system in a controlled environment. Seeing exactly how and why something fails is the fastest path to truly mastering it.
 
-Completing a lab means you can explain what you built, why it works, and how it fails — not just that the code runs.
+Completing a lab under this protocol means you can explain what was built, why it works, and how it connects — not just that the code runs.
 
 ---
 
