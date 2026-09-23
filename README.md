@@ -13,7 +13,7 @@ The target here is **tool fluency through doing** — understanding the internal
 ### What This Is NOT
 - ❌ A project to blindly follow tutorials and get working code
 - ❌ A portfolio of polished, production-ready apps
-- ❌ A race to complete all 6 labs as fast as possible
+- ❌ A race to complete all 10 labs as fast as possible
 
 ### What This IS
 - ✅ A structured environment to **deeply understand** AI engineering tools
@@ -36,68 +36,60 @@ Completing a lab under this protocol means you can explain what was built, why i
 
 ---
 
+## What You'll Understand When You're Done
+
+The curriculum is organised around **52 concepts**, catalogued in [docs/concept_inventory.md](docs/concept_inventory.md). Every lab exists to make one or more of them concrete.
+
+A concept counts as learned when you can (1) explain it in plain language, (2) point at it in code you wrote, and (3) **predict what happens when you break it** — before you run it. That third test is the bar.
+
 ## Tools Being Learned (Across All Labs)
 
 | Category | Tools |
 |---|---|
-| **AI Frameworks** | Pydantic AI, LangGraph, CrewAI, FastMCP |
-| **LLM SDKs** | Anthropic SDK, OpenAI SDK (prompt caching, structured outputs) |
-| **Vector & Storage** | pgvector (Postgres), ChromaDB, MongoDB |
-| **Local Inference** | Ollama, llama.cpp, GGUF quantization, QLoRA |
-| **APIs & Protocols** | Model Context Protocol (MCP), OpenTelemetry, FastAPI |
-| **Infrastructure** | Docker, docker-compose |
+| **LLM SDKs** | Anthropic SDK — structured outputs, prompt caching, tool use, extended thinking |
+| **Validation** | Pydantic (schema-enforced model output) |
+| **Retrieval** | sentence-transformers, ChromaDB, BM25, cross-encoder reranking |
+| **Evaluation** | Golden datasets, LLM-as-judge, `ragas`, pytest, GitHub Actions |
+| **Observability** | Langfuse / Arize Phoenix (local, no Docker) |
+| **Agents & Protocols** | FastMCP, Model Context Protocol, Agent Skills, CrewAI |
+| **Guardrails** | Microsoft Presidio (PII), input/output scanning |
+| **Local Inference** | Ollama (pre-quantized models) |
 
----
+## The Shared Dataset
 
-## Repository Structure
+Every lab operates on the same fictional online retailer, so each builds visibly on the last:
 
-Each lab lives in its own folder (to be created as you work through them):
+- **`data/reviews.csv`** — ~500 free-text customer reviews and support tickets
+- **`data/shop.db`** — SQLite: `customers`, `orders`, `products`, `returns`
 
-- `/lab-1-rag-extraction-api/` — Enterprise FastAPI, Pydantic AI, pgvector, Docker, OpenTelemetry.
-- `/lab-2-stateful-multi-agent-worker/` — Stateful LangGraph, FastMCP, MongoDB, JWT auth.
-- `/lab-3-fine-tuning-sandbox/` — HuggingFace fine-tuning, local vLLM/Ollama GGUF serving, Pytest evaluations.
-- `/lab-4-local-ai-assistant/` — Custom FastMCP server with weather and todo tools, running in Claude Code/Cursor.
-- `/lab-5-resume-scout-pipeline/` — Structured outputs, prompt caching, local ChromaDB/SQLite.
-- `/lab-6-competitor-intelligence-crew/` — CrewAI multi-agent cooperative workflows and search tools.
-
----
+Six disconnected toy scenarios teach six disconnected lessons. One dataset you extract from, search, question, and eventually let an agent query means that by Lab 6 you are working on a system you built yourself — in a domain where you can tell good output from bad.
 
 ## Lab Overview
 
-### 📘 Lab 1: The Production-Grade Enterprise RAG & Extraction Engine *(Advanced)*
-- **Tools to Learn:** FastAPI, Pydantic AI, pgvector, Docker, OpenTelemetry
-- **The Scenario:** Build a secure backend service for an HR platform — ingest unstructured candidate documents, extract structured developer profiles into pgvector, enable semantic search, and instrument everything with OpenTelemetry tracing.
-- **Key Question:** How does a vector database actually store and retrieve semantically similar content? What makes RAG retrieval quality good or bad?
+| Lab | Title | Concepts | Est. |
+|---|---|---|---|
+| **0** | [Model Behaviour Playground](linear_backlog_labs.md) — tokens, context, temperature, non-determinism | 1–8 | 3h |
+| **1** | Messy Text → Clean Table — structured outputs, validation, caching, cost | 9–15, 51 | 5h |
+| **2** | Measuring Quality — golden sets, LLM-as-judge, scorecards, tracing | 36–41 | 6h |
+| **3** | Embeddings & Semantic Search — chunking, hybrid search, reranking | 16–23, 52 | 5h |
+| **4** | RAG over Your Own Data — grounding, faithfulness, long-context trade-off | 24–26 | 5h |
+| **5** | Tools & MCP — tool calling, MCP, Agent Skills ✅ *mostly built* | 27–29, 33 | 4h |
+| **6** | The Text-to-SQL Analyst Agent — agent loop, state, approval gates | 30–31, 34, 49–50 | 6h |
+| **7** | Multi-Agent Teams — orchestration, context engineering | 32, 35 | 4h |
+| **8** | Guardrails & Failure Modes — prompt injection, PII, fallbacks | 42–45 | 4h |
+| **9** | Adaptation — prompt vs. RAG vs. fine-tune, local models | 46–48 | 3h |
 
-### 🔀 Lab 2: The Stateful Multi-Agent Automation Worker *(Advanced)*
-- **Tools to Learn:** LangGraph, FastMCP, MongoDB, FastAPI (JWT auth)
-- **The Scenario:** Build a competitor research worker using LangGraph stateful graphs, reading mock inboxes via custom MCP tools, running QA loops, and saving state in MongoDB behind a JWT-secured FastAPI layer.
-- **Key Question:** What does "stateful" actually mean for an agent graph? How does a graph recover from a mid-run failure?
+**Total: ~45h.** Full task breakdown in [linear_backlog_labs.md](linear_backlog_labs.md).
 
-### 🧪 Lab 3: The Deep-Tech Fine-Tuning & Local Inference Sandbox *(Advanced)*
-- **Tools to Learn:** HuggingFace PEFT/TRL, QLoRA, llama.cpp, Ollama, Docker
-- **The Scenario:** Prepare a custom dataset, run local QLoRA fine-tuning, compile/quantize weights into GGUF format, serve locally inside Dockerized Ollama, and run automated Pytest benchmarks.
-- **Key Question:** What does quantization actually do to a model's quality? How do you measure if a fine-tuned model is better or worse?
+### Suggested order
 
-### 🛠️ Lab 4: The Local "AI Executive Assistant" *(Intermediate)*
-- **Tools to Learn:** FastMCP, MCP Inspector, Claude Code/Cursor integration
-- **The Scenario:** Write a custom FastMCP server. Implement tools for fetching weather forecasts and reading/appending to a local `todo.txt`. Test in MCP Inspector, then run live inside Claude Code or Cursor.
-- **Key Question:** How does an LLM actually decide when to call a tool vs. answer directly? What role does the function docstring play?
+Work **0 → 1 → 2** first. Lab 2 builds the scorecard, which turns every later prompt change into a number instead of a feeling — so it comes *before* the labs it measures, not after.
 
-### 📂 Lab 5: The "Resume Scout" Pipeline *(Intermediate)*
-- **Tools to Learn:** Anthropic SDK (prompt caching), Pydantic, ChromaDB
-- **The Scenario:** Define Pydantic models for resume parsing. Integrate Anthropic ephemeral prompt caching to reduce costs. Build a local ChromaDB index and a semantic search CLI.
-- **Key Question:** What does a cache hit actually look like in the API response? When does caching save you money vs. when does it not?
-
-### 🤖 Lab 6: The "Competitor Intelligence" Crew *(Intermediate)*
-- **Tools to Learn:** CrewAI, Serper/Brave Search tools
-- **The Scenario:** Create a collaborative multi-agent team in CrewAI — a Research Agent gathering raw data, and a Competitor Analyst Agent compiling comparative tables and SWOT reports.
-- **Key Question:** How does CrewAI orchestrate agents differently from LangGraph? What happens when one agent's output is poor quality?
-
----
+Lab 5 is largely complete already; **Lab-5.3** (breaking the MCP server via Inspector) is the outstanding piece.
 
 ## Supporting Docs
 
-- 📋 [linear_backlog_labs.md](linear_backlog_labs.md) — Full task breakdown for all 6 labs (24 issues with estimates, tasks, and destructive debugging exercises).
-- 🏆 [docs/hackathon_action_plan.md](docs/hackathon_action_plan.md) — A plan to translate these backend engineering skills into hackathon-ready prototyping speed.
-- 📚 [docs/core_knowledge_gaps.md](docs/core_knowledge_gaps.md) — Targeted study guide on System Prompts, KV/Prompt Caching, and Agent Tools — three foundational concepts threaded throughout all labs.
+- 📚 [docs/concept_inventory.md](docs/concept_inventory.md) — **the master list.** All 52 concepts, in plain language, mapped to the lab that teaches each.
+- 📋 [linear_backlog_labs.md](linear_backlog_labs.md) — 31 issues with estimates, task lists, self-check questions, and breakage exercises.
+- 🧠 [docs/core_knowledge_gaps.md](docs/core_knowledge_gaps.md) — deep dives on system prompts, prompt caching, and tool use.
+- 🏆 [docs/hackathon_action_plan.md](docs/hackathon_action_plan.md) — translating these skills into rapid prototyping.

@@ -6,6 +6,10 @@ import subprocess
 BACKLOG_PATH = "/Users/shubham/Projects/ai_mastery_labs/linear_backlog_labs.md"
 DOCS_DIR = "/Users/shubham/Projects/ai_mastery_labs/docs/issues"
 PROJECT_ID = "adcc5703d02c"  # Lab project ID
+
+# Restrict the import to specific labs, e.g. ["Lab-0", "Lab-1"].
+# Set to None to import all labs in the backlog.
+LABS_TO_IMPORT = ["Lab-0"]
 TEAM_KEY = "MOS"
 
 os.makedirs(DOCS_DIR, exist_ok=True)
@@ -38,8 +42,8 @@ for idx, section in enumerate(sections):
     full_title = f"[{label_tag}] {raw_title}"
     
     # Parse metadata
-    priority_match = re.search(r"\*\s+Priority:\s+(\w+)", section, re.IGNORECASE)
-    estimate_match = re.search(r"\*\s+Estimate:\s+(\d+)", section)
+    priority_match = re.search(r"\*\*Priority:\*\*\s*(\w+)", section, re.IGNORECASE)
+    estimate_match = re.search(r"\*\*Estimate:\*\*\s*(\d+)", section)
     
     priority_str = priority_match.group(1).lower() if priority_match else "medium"
     priority_val = PRIORITY_MAP.get(priority_str, "3")
@@ -47,7 +51,7 @@ for idx, section in enumerate(sections):
     estimate_val = estimate_match.group(1) if estimate_match else "1"
     
     # Parse description (content after the metadata block)
-    desc_start_match = re.search(r"\*\s+Description:\s*\n", section, re.IGNORECASE)
+    desc_start_match = re.search(r"\*\*Description:\*\*\s*\n", section, re.IGNORECASE)
     if desc_start_match:
         description_text = section[desc_start_match.end():].strip()
     else:
@@ -60,10 +64,8 @@ for idx, section in enumerate(sections):
     with open(desc_file_path, "w") as df:
         df.write(description_text)
         
-    # Check if this is a newly added issue (Lab-4, Lab-5, Lab-6)
-    is_new = any(label_tag.startswith(prefix) for prefix in ["Lab-4", "Lab-5", "Lab-6"])
-    
-    if is_new:
+    # Which labs to push to Linear. Set to None to import every lab.
+    if LABS_TO_IMPORT is None or label_tag.split(".")[0] in LABS_TO_IMPORT:
         issues.append({
             "title": full_title,
             "priority": priority_val,
