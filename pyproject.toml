@@ -1,0 +1,39 @@
+[project]
+name = "shopai"
+version = "0.1.0"
+description = "Python package AI toolkit for a fictional online retailer, built up lab by lab in AI Mastery Labs."
+readme = "README.md"
+authors = [
+    { name = "Shubham", email = "shubhamag91@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic-settings>=2.15.0",
+    "structlog>=26.1.0",
+]
+
+[project.scripts]
+shopai = "shopai:main"
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.6.2",
+    "pytest>=9.1.1",
+    "ruff>=0.17.0",
+]
+
+[tool.ruff]
+line-length = 100
+# Docs code is laid out for reading; mcp-server-v0 is an archived experiment rebuilt in Lab 6.2.
+extend-exclude = ["*.md", "labs/lab-06-tools-mcp/experiments/mcp-server-v0"]
+
+[tool.ruff.lint]
+# F: real bugs · E: style · I: import order · B: likely bugs · UP: modern syntax
+select = ["F", "E", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

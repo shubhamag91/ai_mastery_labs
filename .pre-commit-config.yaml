@@ -1,0 +1,21 @@
+# Checks that run on every `git commit`. Set up once per clone: uv run pre-commit install
+repos:
+  # ruff runs from the project's venv, so it is the exact version pinned in uv.lock.
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check --fix --force-exclude
+        language: system
+        types_or: [python, pyi]
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format --force-exclude
+        language: system
+        types_or: [python, pyi]
+
+  # gitleaks scans the staged changes for anything that looks like a secret.
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
