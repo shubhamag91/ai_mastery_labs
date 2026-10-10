@@ -50,19 +50,23 @@ def parse_backlog():
         desc_start_match = re.search(r"\*\*Description:\*\*\s*\n", section, re.IGNORECASE)
 
         priority_str = priority_match.group(1).lower() if priority_match else "medium"
-        description = section[desc_start_match.end():].strip() if desc_start_match else section.strip()
+        description = (
+            section[desc_start_match.end() :].strip() if desc_start_match else section.strip()
+        )
 
         # The team doesn't use Linear's estimate field, so the estimate goes in the description.
         if estimate_match:
             description = f"**Estimate:** {estimate_match.group(1)}h\n\n{description}"
 
-        issues.append({
-            "tag": tag,
-            "group": tag.split(".")[0],  # "Lab-2" or "Milestone-1"
-            "title": f"[{tag}] {title_match.group(2).strip()}",
-            "priority": PRIORITY_MAP.get(priority_str, "3"),
-            "description": description,
-        })
+        issues.append(
+            {
+                "tag": tag,
+                "group": tag.split(".")[0],  # "Lab-2" or "Milestone-1"
+                "title": f"[{tag}] {title_match.group(2).strip()}",
+                "priority": PRIORITY_MAP.get(priority_str, "3"),
+                "description": description,
+            }
+        )
 
     return issues
 
@@ -86,9 +90,15 @@ def existing_titles():
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--dry-run", action="store_true", help="print what would be created; change nothing")
-    parser.add_argument("--labs", nargs="+", metavar="GROUP", help="only these groups, e.g. Lab-0 Milestone-1")
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="print what would be created; change nothing"
+    )
+    parser.add_argument(
+        "--labs", nargs="+", metavar="GROUP", help="only these groups, e.g. Lab-0 Milestone-1"
+    )
     args = parser.parse_args()
 
     issues = parse_backlog()
@@ -111,13 +121,21 @@ def main():
             continue
 
         cmd = [
-            "linear", "issue", "create",
-            "--title", issue["title"],
-            "--project", PROJECT_ID,
-            "--team", TEAM_KEY,
-            "--label", "Lab",
-            "--priority", issue["priority"],
-            "--description-file", str(desc_file),
+            "linear",
+            "issue",
+            "create",
+            "--title",
+            issue["title"],
+            "--project",
+            PROJECT_ID,
+            "--team",
+            TEAM_KEY,
+            "--label",
+            "Lab",
+            "--priority",
+            issue["priority"],
+            "--description-file",
+            str(desc_file),
             "--no-interactive",
         ]
         try:
