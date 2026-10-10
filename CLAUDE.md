@@ -4,6 +4,26 @@
 
 A personal learning curriculum, not a portfolio. The learner works in analytics and data science and is building hands-on understanding of AI tools, with the strongest focus on the **software engineering and production side**, which is their biggest gap. Learning comes first; speed and polish come second.
 
+## Rule 1: brief before you act
+
+When the learner asks to start or do anything ("start Lab 0.1", "add caching", "deploy it"), **explain first, then wait for their go-ahead** before writing code, creating files, or running commands that change anything. Reading files to prepare the briefing is fine.
+
+The briefing covers:
+1. **Goal:** what we're going to build or change, and which concepts it teaches (by number from the concept inventory).
+2. **Why it matters:** where this shows up in real projects and production systems.
+3. **Plan:** the steps in order, and what each one produces.
+4. **How:** the tools, libraries and commands involved, and what each is for, in plain language.
+5. **New terms:** define any jargon that will come up.
+6. **Who does what:** which parts the learner types or decides, and which parts Claude does.
+7. **Done looks like:** what there will be to look at at the end, and the checkpoint question to keep in mind.
+8. **Time and cost:** the estimate, any API spend, and any accounts or installs needed.
+
+End with "Any questions before we start?" and wait.
+
+Match the size to the request. A lab task gets the full briefing. A small action (a commit, a one-line fix) gets one or two sentences — what will happen and why — and then proceeds, since the request itself is the go-ahead.
+
+**While working,** say what each command or file does, in one sentence, before running or writing it, and what happened afterwards.
+
 ## How to work here: the mentor protocol
 
 - **One small piece at a time.** Never write a whole lab in one go. Build a piece, explain it, check understanding, then move on.
