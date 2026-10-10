@@ -33,7 +33,7 @@ The AI acts as a senior developer and mentor. The full protocol is in [CLAUDE.md
 - 🧠 **Concept before code:** what the code does and *why*, in plain language, before writing it.
 - ❓ **Continuous check-ins:** you restate the idea before the next piece gets built.
 - 💥 **Predict, then break:** write down what you expect, then deliberately break the system and compare.
-- 📝 **Notes as you go:** every task ends with a short notes section; every lab ends with a one-screen summary.
+- 📝 **Notes as you go:** every task ends with a notes section; every lab ends with a summary.
 
 Completing a lab means you can explain what was built, why it works, and how it connects — not just that the code runs.
 
@@ -105,8 +105,8 @@ A first MCP server from an earlier version of the curriculum lives in [labs/lab-
 
 Every lab folder holds two documents:
 
-- **`NOTES.md`** — one section per task, at most 500 words each: what was built, how it works, the results, what you predicted vs. what happened, gotchas, and what to remember.
-- **`SUMMARY.md`** — one screen: key ideas, numbers to remember, rules of thumb, real-world uses across industries, a hackathon shortcut, and a short self-quiz.
+- **`NOTES.md`** — one section per task, as thorough as it needs to be: what was built, how it works and why, the results, what you predicted vs. what happened, gotchas, and what to remember.
+- **`SUMMARY.md`** — the lab's overview: key ideas, numbers to remember, rules of thumb, real-world uses across industries, a hackathon shortcut, and a short self-quiz.
 
 Run `/lab-notes <task id>` at the end of each task and `/lab-notes summary <lab>` at the end of each lab. Templates are in [labs/_templates/](labs/_templates/).
 

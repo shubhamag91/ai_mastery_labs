@@ -1,7 +1,7 @@
 <!--
 NOTES.md template: one per lab, one section per task in backlog order.
 Each section is written with `/lab-notes <task id>`; the prediction with `/lab-notes predict <task id>`.
-Cap: 500 words per section. Link to code and results instead of pasting them.
+No length cap: be as thorough as the task needs. Link to code and results; quote a snippet when it is the idea itself.
 Production (.P) sections add the two extra headings marked below.
 -->
 # Lab N: <Title> — Notes
@@ -11,10 +11,10 @@ Production (.P) sections add the two extra headings marked below.
 **Question this answered:** one line.
 
 **What I built**
-- 2–4 bullets, each linking to the code: [`file.py`](../../src/shopai/file.py#L10)
+- One bullet per piece, each linking to the code: [`file.py`](../../src/shopai/file.py#L10)
 
 **How it works**
-A short paragraph on the mechanism. A diagram only if it earns its place.
+The mechanism, the concepts behind it, and why it's built this way. A diagram where it helps.
 
 **Results**
 The table or numbers this task produced, linking to the file in [results/](results/).
@@ -28,7 +28,7 @@ The table or numbers this task produced, linking to the file in [results/](resul
 - Error or surprise → what fixed it.
 
 **Remember**
-- At most 3 bullets.
+- The points worth knowing a month from now.
 
 **Commands**
 ```bash

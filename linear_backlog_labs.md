@@ -29,7 +29,7 @@ Every issue carries an estimate, a task list, a **Learning Checkpoint** (a self-
 ```
 src/shopai/                  shared Python package; every lab extends it
 labs/lab-NN-<slug>/
-  SUMMARY.md                 one-screen summary, written when the lab is done
+  SUMMARY.md                 the lab's summary, written when the lab is done
   NOTES.md                   one section per task, written as you go
   experiments/               this lab's scripts and notebooks
   results/                   the charts, tables and CSVs the notes cite

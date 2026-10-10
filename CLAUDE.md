@@ -46,7 +46,7 @@ Match the size to the request. A lab task gets the full briefing. A small action
 ## Notes convention
 
 - Every task ends with `/lab-notes <id>`; every lab ends with `/lab-notes summary <n>`. The skill is in [.claude/skills/lab-notes/SKILL.md](.claude/skills/lab-notes/SKILL.md).
-- Caps: a task section is at most 500 words; a summary at most 350.
+- No length caps. Notes can be as comprehensive as the task needs: explain the concepts and the why, not just what was built.
 - Never write the learner's **Predicted** line or **In my own words** line.
 - Commit code and its notes together.
 

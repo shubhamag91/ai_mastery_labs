@@ -1,7 +1,6 @@
 <!--
 SUMMARY.md template: one per lab, written with `/lab-notes summary <lab>` when the lab is done.
-Cap: 350 words, not counting the folded quiz answers. It must fit on one screen.
-Link, don't paste. Only what this lab showed; no textbook explanations.
+No length cap. Link to code and results; quote a snippet when it is the idea itself.
 -->
 # Lab N: <Title>
 
@@ -10,18 +9,18 @@ Link, don't paste. Only what this lab showed; no textbook explanations.
 **Concepts:** #x, #y, #z · **Detail:** [NOTES.md](NOTES.md) · **Code:** [`src/shopai/<module>`](../../src/shopai/)
 
 ## Key ideas
-- 3–5 bullets. One line each, with its concept number (#n).
+- One bullet per idea, with its concept number (#n).
 
 ## Numbers to remember
 | Measurement | Value | Source |
 |---|---|---|
-| 3–5 things you measured | | [results/…](results/) |
+| Each thing you measured | | [results/…](results/) |
 
 ## Rules of thumb
 - Use X when …; avoid it when …
 
 ## Real-world uses
-- 2–3 uses, each from a different industry.
+- At least 2 uses, each from a different industry.
 - **Don't use it for:** …
 
 ## Hackathon shortcut
@@ -29,4 +28,4 @@ One or two lines: the fastest way to use this under time pressure.
 
 ## Quiz yourself
 1. Question?
-   <details><summary>Answer</summary>Short answer, with a link to the NOTES section.</details>
+   <details><summary>Answer</summary>The answer, with a link to the NOTES section.</details>
