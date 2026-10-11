@@ -187,6 +187,7 @@ LOG_LEVEL=DEBUG uv run shopai    # override one setting for one run
   - [14 planted cases](../../data/SPEC.md#5-planted-cases), each with an exact location, the lab that needs it, and how 0.P will check it;
   - [8 themes](../../data/SPEC.md#6-themes), plus a hidden one in a collapsed spoiler.
 - Decisions: a home and kitchen appliance shop ("ShopAI Home"), in India with prices in ₹, about 500 customers, 60 products, 3,000 orders over 18 months and 500 reviews. Two additions to the backlog: answer keys, and a hidden theme for Lab 4.4.
+- **Return rate kept at 8%**, knowingly. That's about 230 returns over 18 months: roughly 13 a month across the shop, or about 2 per category per month. Shop-wide trends will be solid; per-category monthly trends will be noisy. That's realistic for appliances, and a small-sample lesson in itself.
 
 **How it works**
 
@@ -256,4 +257,3 @@ No measurements: this task produces a document, not data.
 
 **Still unclear**
 - Some rules can't be checked by a test: that brand names are invented, that a photo really shows the stated category, that a review is really about its intended theme. 0.P will need to sample these by eye, or accept them as unchecked.
-- Returns may be thin for monthly questions. About 8% of roughly 2,850 delivered orders is around 230 returns: about 13 a month across the shop, or about 2 per category per month. Fine for shop-wide trends, noisy per category. Worth deciding before 0.3 whether Lab 7 needs more.
