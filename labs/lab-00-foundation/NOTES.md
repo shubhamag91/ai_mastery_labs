@@ -482,3 +482,144 @@ PYTHONPATH=. uv run --group datagen python labs/lab-00-foundation/experiments/re
 - **`make data` only runs on a Mac.** The audio needs `say` and `afconvert`, and the PDFs read the Georgia font from a macOS path, so a Linux CI runner (Lab 3.P) can't rebuild the data. Whether a newer macOS, with updated voices, gives different audio bytes hasn't been tested.
 - **The tables are identical only while the Faker version in `uv.lock` stays the same.** An upgrade could change every customer's name without changing any count, so 0.P's range checks wouldn't notice.
 - **The photo route for Lab 1.4 is still open** (finishing the photos is now the first task of Lab 1.4 in [the backlog](../../linear_backlog_labs.md)): an image-generation API, phone photos, or real photos only with a smaller spec. The 109 downloaded candidates are git-ignored, so they exist only on this laptop (`images fetch` gets them again).
+
+## 0.P Write Data Contract Tests
+
+**Question this answered:** How do you turn a written data spec into tests that fail loudly, and clearly, the moment the data stops matching it?
+
+**Concepts:** #58 Data contracts. There's no Q&A file for this task in [qa/](qa/).
+
+**What I built**
+- [tests/test_data_contract.py](../../tests/test_data_contract.py): 25 test functions that produce 57 results, because one function can check many files. All run from `make test`; pytest already collects everything in `tests/`, so the Makefile didn't change.
+
+| Spec section | Tests | What they check |
+|---|---|---|
+| 3. Tables | [`test_row_count`](../../tests/test_data_contract.py#L80) (6 results), [`test_no_orphan_rows`](../../tests/test_data_contract.py#L86), [`test_reviews_belong_to_their_order`](../../tests/test_data_contract.py#L92), [`test_reviews_csv_matches_the_table`](../../tests/test_data_contract.py#L103), [`test_answer_key_labels_every_review_once`](../../tests/test_data_contract.py#L122) | Row counts, the links between tables, the two copies of the reviews agree, the answer key lines up with the reviews |
+| 5. Planted cases | P1 to P7 and P14 ([from line 143](../../tests/test_data_contract.py#L143)), 13 results | Each case exactly as the spec states it |
+| 4. Files | P8, P9 (6), P10 (10 + 1), P13 (10 + 1), P11 and P12 ([from line 296](../../tests/test_data_contract.py#L296)) | Every PDF and recording opens and meets its rule; the invoice answer key adds up; the photos are expected failures |
+| 2. Generation rules | [`test_manifest_matches_the_tables`](../../tests/test_data_contract.py#L412), [`test_data_fits_the_50_mb_budget`](../../tests/test_data_contract.py#L425) | The manifest isn't stale; `data/` is under 50 MB |
+
+- Three test-only libraries in the `dev` group of [pyproject.toml](../../pyproject.toml): `pypdf` 6.20.0 reads PDF text, `mutagen` 1.48.1 reads audio durations, `pillow` opens images.
+- `master` fast-forwarded to the 0.3 commit; this task is on the `lab-0.P-data-contracts` branch.
+
+**How it works**
+
+### 1. Test the data, and independently of the code that made it
+
+A **code test** checks logic: given these inputs, does the function return the right thing? A **data test** checks an artefact: do the files actually committed today keep the promises in the spec? The generator already checks itself while it runs ([tables.py](../../scripts/datagen/tables.py#L373)), which is a *producer* check. These tests are the *consumer's* check, and they deliberately import nothing from `scripts/datagen`: every exact value, range and pattern is copied from [SPEC.md](../../data/SPEC.md).
+
+It's the maker-checker principle: the checker verifies against the source document, not by rerunning the maker's spreadsheet. If the tests borrowed from the generator:
+- **a loosened check would loosen the test too.** Widen the returns range in `tables.py` to make a build pass, and an imported range would widen with it;
+- **a shared typo would become "correct".** Edit the injection sentence in the generator, and a test importing it would look for the edited sentence;
+- **data that changed without the generator running** (a hand edit, a bad merge, a rebuild that stopped halfway) would never be checked, because the generator's checks only run while it generates;
+- **the tests couldn't run on CI**, because the generator needs DeepSeek's client, Faker, fpdf2 and a Mac.
+
+The cost is that each rule is written twice. That's the point: two independent readings of one spec that agree are evidence; if they disagree, one is wrong.
+
+### 2. The pytest tools
+
+- **Fixtures.** [`db`](../../tests/test_data_contract.py#L53) opens `shop.db` once per run (`scope="session"`) and is handed to every test that names it as an argument. The code before its `yield` is setup and the code after is teardown. The connection is **read-only** (`?mode=ro`), so a buggy test can't damage the data it checks. [`texts`](../../tests/test_data_contract.py#L61) builds the `review_id → text` map once, for the planted-case tests.
+- **Parametrize.** One function, many cases, each reported separately: `test_p9_manual_has_the_six_headings_in_order[toaster]` fails on its own, not "the manuals failed". Non-English parameters produce unreadable names, so the P3 cases have their own short names ([line 183](../../tests/test_data_contract.py#L183)).
+- **Expected failures.** [`pending_case()`](../../tests/test_data_contract.py#L34) reads `pending` from `manifest.json` ([line 31](../../tests/test_data_contract.py#L31)) and marks P11 and P12 `xfail(strict=True)`: they run, they fail because there are no photos, and pytest reports `XFAIL - P11 is pending in data/manifest.json` instead of a failure. When Lab 1.4 builds the photos and the manifest's `pending` empties, the marker switches itself off. `strict=True` closes the loophole: if the photos arrive but the manifest still lists them, the unexpected pass (`XPASS`) counts as a failure, so the manifest can't go stale.
+- **Assertion messages.** Every message names the rule, the case, the lab that needs it, and what was found against what was expected: `P1 (Lab 4.2): review 317, the planted SKU review, is missing`.
+
+### 3. Design choices worth remembering
+
+- **SQLite doesn't enforce foreign keys by default.** Each connection has to switch them on. `PRAGMA foreign_key_check` reports orphan rows either way, so the test doesn't depend on whoever wrote the data having remembered.
+- **Compare by key, not as lists.** [`test_reviews_csv_matches_the_table`](../../tests/test_data_contract.py#L103) compares the CSV and the table by `review_id`, so a failure says `Only in the CSV: ['317']` instead of printing two 500-row lists.
+- **"Exactly one" needs both directions.** P1 checks that review 317 contains `AFR-0007` *and* that no other review contains anything shaped like a SKU. The second half catches an LLM inventing a look-alike.
+- **Check that a planted row exists before checking its content.** Added after the break test (below).
+- **`NOT EXISTS`, not `NOT IN`, when the subquery can contain NULL.** Goodwill refunds have `return_id = NULL`. `x NOT IN (a, b, NULL)` means `x != a AND x != b AND x != NULL`, and a comparison with NULL is *unknown*, never true. On this data the P14 count came out as **0 with `NOT IN` and 12 with `NOT EXISTS`** ([line 258](../../tests/test_data_contract.py#L258)). Here the wrong version would fail loudly; the dangerous case is a check hunting for *bad* rows, which would return none and pass silently.
+- **Leave page furniture out of word counts.** [`pdf_lines()`](../../tests/test_data_contract.py#L279) drops the "ShopAI Home · … · page N" footers. With them the policy counts 11,925 words; without them, 11,745. The limit is 12,000.
+- **Read shared inputs defensively.** `manifest.json` is read when the test file is imported. If that crashed, pytest would stop collecting tests altogether, unit tests included, so a missing manifest gives an empty `pending` list and its own failing test instead.
+- **Use readers that work everywhere.** `mutagen` is pure Python, where the generator's `afinfo` is Mac-only, so these tests will run on Linux CI in Lab 3.P.
+
+### 4. A slimmed scope, and what isn't tested
+
+To reach Lab 1 sooner, this task was cut to the checks with the most learning value. **Not tested yet:**
+- most per-column rules in section 3: formats (lowercase emails on reserved domains, phone and SKU formats), ranges (prices, dates within the trading period), date order (delivery 1–10 days after ordering, review and refund dates), and proportions (delivered share, quantity, payment mix, the rating J-shape, 400 reviews and 100 tickets, 45–70 rows per theme);
+- **two rules too vague to test as written:** "typical length: reviews 20–200 words, tickets 50–300" (41 of 392 reviews and 21 of 99 tickets fall outside it, by the generator's design) and "about 50% UPI…" (the data has UPI 49.4%, card 24.3%, cash on delivery 15.7%, net banking 10.5%). Proposed: hard bounds that catch broken output (reviews 10–250 words, tickets 25–350) and ±5 percentage points for the payment mix. Not yet decided;
+- judgement calls that code can't check: invented brand names, a review really being about its theme, ratings matching the tone, the policy agreeing with section 3.
+
+A one-off check while preparing found the current data satisfies the key untested rules (unit prices, delivery times, review links, review, ticket and refund dates, lowercase emails: 0 violations each). Nothing will catch a regression in them, though.
+
+**Results**
+
+| Run | Result |
+|---|---|
+| `uv run pytest tests/test_data_contract.py` | 55 passed, 2 xfailed, in 0.52 s |
+| `make test` (all tests) | 66 passed, 2 xfailed, in about 0.6 s |
+| `make lint` | all checks passed |
+| xfail reasons | `P11 is pending in data/manifest.json`, `P12 is pending in data/manifest.json` |
+
+Break test: review 317 deleted from `shop.db` only (`reviews.csv` untouched), then `make test`:
+
+| Failing test | First run's message | Clear? | After the fixes |
+|---|---|---|---|
+| `test_row_count[reviews]` | `reviews has 499 rows; SPEC.md section 3 requires 500 to 500` | yes, awkward wording | `… requires exactly 500` |
+| `test_reviews_csv_matches_the_table` | `Only in the CSV: ['317']; only in the table: []; different values: []` | yes | unchanged |
+| `test_p1_sku_appears_in_exactly_one_review` | `SKU-shaped text found in reviews []; the spec allows it only in review 317, which names AFR-0007` | **no**: reads as a SKU problem | `P1 (Lab 4.2): review 317, the planted SKU review, is missing` |
+| `test_manifest_matches_the_tables` | both whole dictionaries, then `the manifest is stale, run make data` | **no**: wrong diagnosis, and the one difference is buried | `{'reviews': 'manifest 500, table 499'}. Either the tables changed after the manifest was written or the manifest is stale` |
+| `test_answer_key_labels_every_review_once` | (didn't exist) | | `labels without a review: [317]` |
+| Totals | 4 failed, 61 passed, 2 xfailed | | 5 failed, 61 passed, 2 xfailed |
+
+`git restore data/shop.db` put the database back: 66 passed, 2 xfailed.
+
+**Predicted vs. actual**
+- **Predicted** _(you write this before the break test)_:
+- **Actual:** Deleting one row broke four tests on the first run: the reviews row count, the CSV-against-table comparison, P1 and the manifest. Two of the four messages were clear. P1's message described a SKU problem rather than a missing row, and the manifest message blamed the manifest when the table was the damaged side. Nothing noticed that the answer key still labelled the deleted review. After fixing the messages and adding an answer-key test, the same deletion failed five tests, and every message pointed at review 317.
+- **Why:**
+  - One row sits inside several promises (the row count, the CSV copy, the answer key, P1, the manifest), so a single deletion breaks all of them. That overlap is useful: five independent tests all naming review 317 is a strong signal of one cause.
+  - A message describes the failure its author pictured. P1's was written for "SKU text in the wrong row"; the break test produced "the row is gone", which nobody had pictured. Checking that a planted row exists before checking its content covers that.
+  - A test can see that two things disagree, but not which one is wrong. The manifest message guessed; now it reports the disagreement and points at the other failing tests as evidence.
+  - Some things didn't fail, and that's informative too. P4 passed because review 317 had no personal data in it; ratings and the 400/100 split aren't tested in the slimmed scope; and the orphan check passed because no table refers to reviews.
+
+**Gotchas**
+- **`NOT IN` with a NULL in the list matches nothing** → `NOT EXISTS` (0 against 12 rows on this data).
+- **PDF footers counted as policy words:** 180 extra "words" (Python's `split()` also counts each `·`) → leave them out. The policy is 255 words under its limit.
+- **Hindi and Tamil test names showed as long escape codes** → short `ids=`.
+- **A crash while importing a test file stops pytest from collecting anything** → read `manifest.json` defensively.
+- **Comparing two whole dictionaries gives a truncated diff (`...`)** → compute the differences and report only those.
+
+**Remember**
+- A code test checks logic; a data test checks the artefact. Take the checks from the spec, never from the producer's code.
+- Every failure message should say which rule broke, which case, which lab needs it, and what was found against what was expected.
+- Check that a planted row exists before checking its content, and check "exactly one" in both directions.
+- Use `NOT EXISTS`, not `NOT IN`, whenever the subquery's column can be NULL.
+- `xfail(strict=True)`, switched by one source of truth (the manifest), records a known gap without letting it go stale.
+- Break your tests on purpose. The first break found two misleading messages and a missing test.
+- Committed data makes recovery one command: `git restore data/shop.db`.
+
+**Commands**
+```bash
+make test                                                            # everything, including the data contract
+uv run pytest tests/test_data_contract.py -v -rx                     # every result, plus the xfail reasons
+uv run pytest tests/test_data_contract.py -k "p5 or p14"             # only tests whose names match
+sqlite3 data/shop.db "DELETE FROM reviews WHERE review_id = 317"     # the break test
+git restore data/shop.db                                             # undo it
+```
+
+**In production this means**
+- **The same tests run in CI on every pull request** (Lab 3.P), so a change to `data/` or the generator can't merge while the contract fails. On the laptop they're a first guard, like the commit hooks from 0.1.
+- **In a real pipeline the data arrives from upstream,** often another team's feed. Contract tests run when a new batch lands and before anything downstream reads it; a failure holds the batch back instead of letting reports run on bad data. Tools like dbt tests and Great Expectations do this at scale; the idea is the same.
+- **The reader of a failure message is often someone on call who has never seen the test file.** The message has to say what broke and where to look, without reading the code.
+- **Known gaps get an owner and a date** (P11 and P12, Lab 1.4), recorded in the place the tests read them, not in someone's memory.
+
+**Runbook**
+When `make test` shows a data contract failure:
+1. **Read the messages.** Several failures naming the same row or file usually share one cause.
+2. **Decide which kind of change it is.**
+   - *Accidental* (a hand edit, a bad merge, a rebuild that stopped halfway): `git restore data/`, or `make data` to rebuild from the cache, then `make test`.
+   - *Deliberate* (the data is meant to change): change `SPEC.md` first, then the generator, then the tests; rebuild with `make data`; commit them together.
+3. **Never make a failure pass by loosening a test without changing the spec first.**
+
+Finishing a pending case (Lab 1.4): build it, set `DEFERRED = False` in `images.py`, run `make data` (the manifest's `pending` empties), and `make test` must then pass P11 and P12 with no marker in play. An `XPASS(strict)` failure means the case was built but the manifest still lists it as pending: rebuild the manifest.
+
+**Still unclear**
+- **The break-test prediction was skipped**, so there's no record of what was expected beforehand.
+- **Not yet restated in my own words:** why the tests import nothing from `scripts/datagen` (explained in §1).
+- **The checkpoint question isn't answered yet:** what's the difference between a test of your code and a test of your data, and which one would have caught a generator change that removed the injection review?
+- **The two vague spec rules need precise wording** (§4): hard bounds or a share for lengths, and the tolerance for the payment mix. Until then, they and the other per-column rules are untested.
+- **P4's ownership check only recognises phone numbers in the spec's format;** a number written another way would slip past.
+- **The policy is 255 words under its 12,000-word limit,** so a regenerated policy could fail P8 for a reason nobody cares about. Is the upper limit worth keeping?
+- **The tests don't run anywhere but this laptop yet**: CI arrives in Lab 3.P.
