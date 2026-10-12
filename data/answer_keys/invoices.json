@@ -1,0 +1,717 @@
+[
+ {
+  "file": "invoice_01.pdf",
+  "invoice_number": "INV-2026-001",
+  "supplier": "Coastal Kitchenware Distributors",
+  "date": "2026-04-08",
+  "items": [
+   {
+    "sku": "KET-0001",
+    "description": "Zestro Neo 1.2 L Steel Kettle",
+    "quantity": 20,
+    "unit_cost_inr": 685,
+    "line_total_inr": 13700
+   },
+   {
+    "sku": "KET-0008",
+    "description": "Homiva Edge 1.2 L Cool-Touch Kettle",
+    "quantity": 10,
+    "unit_cost_inr": 977,
+    "line_total_inr": 9770
+   },
+   {
+    "sku": "KET-0009",
+    "description": "Brewnest Nova 1.7 L Cool-Touch Kettle",
+    "quantity": 10,
+    "unit_cost_inr": 1213,
+    "line_total_inr": 12130
+   },
+   {
+    "sku": "TST-0004",
+    "description": "Zestro Plus Long-Slot Sandwich Toaster",
+    "quantity": 5,
+    "unit_cost_inr": 2106,
+    "line_total_inr": 10530
+   }
+  ],
+  "subtotal_inr": 46130,
+  "gst_rate": 0.18,
+  "gst_inr": 8303,
+  "total_inr": 54433
+ },
+ {
+  "file": "invoice_02.pdf",
+  "invoice_number": "INV-2026-002",
+  "supplier": "Northfield Electricals",
+  "date": "2026-05-27",
+  "items": [
+   {
+    "sku": "AFR-0001",
+    "description": "Homiva Neo 6.2 L Dual-Basket Air Fryer",
+    "quantity": 24,
+    "unit_cost_inr": 7519,
+    "line_total_inr": 180456
+   },
+   {
+    "sku": "AFR-0003",
+    "description": "Voltara Lite 5 L Digital Air Fryer",
+    "quantity": 5,
+    "unit_cost_inr": 7301,
+    "line_total_inr": 36505
+   },
+   {
+    "sku": "AFR-0006",
+    "description": "Voltara Max 4.2 L Dual-Basket Air Fryer",
+    "quantity": 12,
+    "unit_cost_inr": 2356,
+    "line_total_inr": 28272
+   },
+   {
+    "sku": "AFR-0008",
+    "description": "Kitchora Edge 4.2 L Dual-Basket Air Fryer",
+    "quantity": 30,
+    "unit_cost_inr": 6804,
+    "line_total_inr": 204120
+   },
+   {
+    "sku": "KET-0001",
+    "description": "Zestro Neo 1.2 L Steel Kettle",
+    "quantity": 20,
+    "unit_cost_inr": 832,
+    "line_total_inr": 16640
+   },
+   {
+    "sku": "KET-0007",
+    "description": "Zestro Ace 1.8 L Steel Kettle",
+    "quantity": 30,
+    "unit_cost_inr": 1130,
+    "line_total_inr": 33900
+   },
+   {
+    "sku": "KET-0008",
+    "description": "Homiva Edge 1.2 L Cool-Touch Kettle",
+    "quantity": 40,
+    "unit_cost_inr": 846,
+    "line_total_inr": 33840
+   },
+   {
+    "sku": "MXG-0004",
+    "description": "Zestro Plus 1000 W 3-Jar Mixer Grinder",
+    "quantity": 30,
+    "unit_cost_inr": 4932,
+    "line_total_inr": 147960
+   },
+   {
+    "sku": "MXG-0005",
+    "description": "Kitchora Pro 750 W 2-Jar Mixer Grinder",
+    "quantity": 5,
+    "unit_cost_inr": 3033,
+    "line_total_inr": 15165
+   },
+   {
+    "sku": "MXG-0008",
+    "description": "Kitchora Edge 600 W 2-Jar Mixer Grinder",
+    "quantity": 10,
+    "unit_cost_inr": 2922,
+    "line_total_inr": 29220
+   },
+   {
+    "sku": "MXG-0010",
+    "description": "Zestro Zen 500 W 2-Jar Mixer Grinder",
+    "quantity": 40,
+    "unit_cost_inr": 4045,
+    "line_total_inr": 161800
+   }
+  ],
+  "subtotal_inr": 887878,
+  "gst_rate": 0.18,
+  "gst_inr": 159818,
+  "total_inr": 1047696
+ },
+ {
+  "file": "invoice_03.pdf",
+  "invoice_number": "INV-2026-003",
+  "supplier": "Bluepeak Audio Supplies",
+  "date": "2026-01-26",
+  "items": [
+   {
+    "sku": "HPH-0001",
+    "description": "Zestro Neo Noise-Cancelling In-Ear Headphones",
+    "quantity": 40,
+    "unit_cost_inr": 1597,
+    "line_total_inr": 63880
+   },
+   {
+    "sku": "HPH-0002",
+    "description": "Voltara Prime Bluetooth In-Ear Headphones",
+    "quantity": 30,
+    "unit_cost_inr": 976,
+    "line_total_inr": 29280
+   },
+   {
+    "sku": "HPH-0003",
+    "description": "Zestro Lite Noise-Cancelling Neckband Headphones",
+    "quantity": 30,
+    "unit_cost_inr": 5465,
+    "line_total_inr": 163950
+   },
+   {
+    "sku": "HPH-0004",
+    "description": "Voltara Plus Bluetooth Over-Ear Headphones",
+    "quantity": 24,
+    "unit_cost_inr": 1113,
+    "line_total_inr": 26712
+   },
+   {
+    "sku": "HPH-0005",
+    "description": "Zestro Pro Bluetooth In-Ear Headphones",
+    "quantity": 10,
+    "unit_cost_inr": 3527,
+    "line_total_inr": 35270
+   },
+   {
+    "sku": "HPH-0006",
+    "description": "Voltara Max Noise-Cancelling Neckband Headphones",
+    "quantity": 12,
+    "unit_cost_inr": 3465,
+    "line_total_inr": 41580
+   },
+   {
+    "sku": "HPH-0007",
+    "description": "Zestro Ace Wireless Over-Ear Headphones",
+    "quantity": 20,
+    "unit_cost_inr": 5515,
+    "line_total_inr": 110300
+   },
+   {
+    "sku": "HPH-0008",
+    "description": "Voltara Edge Bluetooth Neckband Headphones",
+    "quantity": 40,
+    "unit_cost_inr": 2302,
+    "line_total_inr": 92080
+   },
+   {
+    "sku": "HPH-0009",
+    "description": "Zestro Nova Bluetooth Neckband Headphones",
+    "quantity": 20,
+    "unit_cost_inr": 1370,
+    "line_total_inr": 27400
+   },
+   {
+    "sku": "HPH-0010",
+    "description": "Voltara Zen Bluetooth Over-Ear Headphones",
+    "quantity": 5,
+    "unit_cost_inr": 1577,
+    "line_total_inr": 7885
+   }
+  ],
+  "subtotal_inr": 598337,
+  "gst_rate": 0.18,
+  "gst_inr": 107701,
+  "total_inr": 706038
+ },
+ {
+  "file": "invoice_04.pdf",
+  "invoice_number": "INV-2026-004",
+  "supplier": "Saffron Home Traders",
+  "date": "2026-03-26",
+  "items": [
+   {
+    "sku": "AFR-0004",
+    "description": "Homiva Plus 5 L Dual-Basket Air Fryer",
+    "quantity": 50,
+    "unit_cost_inr": 3028,
+    "line_total_inr": 151400
+   },
+   {
+    "sku": "AFR-0008",
+    "description": "Kitchora Edge 4.2 L Dual-Basket Air Fryer",
+    "quantity": 12,
+    "unit_cost_inr": 6750,
+    "line_total_inr": 81000
+   },
+   {
+    "sku": "COF-0001",
+    "description": "Homiva Neo Cold Brew Smart Coffee Maker",
+    "quantity": 24,
+    "unit_cost_inr": 7282,
+    "line_total_inr": 174768
+   },
+   {
+    "sku": "COF-0006",
+    "description": "Brewnest Max Cold Brew Steel Coffee Maker",
+    "quantity": 40,
+    "unit_cost_inr": 9105,
+    "line_total_inr": 364200
+   },
+   {
+    "sku": "MXG-0005",
+    "description": "Kitchora Pro 750 W 2-Jar Mixer Grinder",
+    "quantity": 40,
+    "unit_cost_inr": 2779,
+    "line_total_inr": 111160
+   },
+   {
+    "sku": "TST-0002",
+    "description": "Kitchora Prime 4-Slice Grill Toaster",
+    "quantity": 12,
+    "unit_cost_inr": 814,
+    "line_total_inr": 9768
+   },
+   {
+    "sku": "TST-0007",
+    "description": "Zestro Ace Long-Slot Pop-Up Toaster",
+    "quantity": 10,
+    "unit_cost_inr": 928,
+    "line_total_inr": 9280
+   },
+   {
+    "sku": "TST-0010",
+    "description": "Zestro Zen Long-Slot Sandwich Toaster",
+    "quantity": 10,
+    "unit_cost_inr": 1203,
+    "line_total_inr": 12030
+   }
+  ],
+  "subtotal_inr": 913606,
+  "gst_rate": 0.18,
+  "gst_inr": 164449,
+  "total_inr": 1078055
+ },
+ {
+  "file": "invoice_05.pdf",
+  "invoice_number": "INV-2026-005",
+  "supplier": "Coastal Kitchenware Distributors",
+  "date": "2026-05-27",
+  "items": [
+   {
+    "sku": "COF-0003",
+    "description": "Homiva Lite Espresso Compact Coffee Maker",
+    "quantity": 5,
+    "unit_cost_inr": 2281,
+    "line_total_inr": 11405
+   },
+   {
+    "sku": "COF-0005",
+    "description": "Homiva Pro Espresso Smart Coffee Maker",
+    "quantity": 10,
+    "unit_cost_inr": 7826,
+    "line_total_inr": 78260
+   },
+   {
+    "sku": "COF-0007",
+    "description": "Homiva Ace Cold Brew Steel Coffee Maker",
+    "quantity": 24,
+    "unit_cost_inr": 2261,
+    "line_total_inr": 54264
+   },
+   {
+    "sku": "COF-0008",
+    "description": "Brewnest Edge Drip Compact Coffee Maker",
+    "quantity": 30,
+    "unit_cost_inr": 2436,
+    "line_total_inr": 73080
+   },
+   {
+    "sku": "COF-0010",
+    "description": "Brewnest Zen Espresso Compact Coffee Maker",
+    "quantity": 40,
+    "unit_cost_inr": 2409,
+    "line_total_inr": 96360
+   },
+   {
+    "sku": "KET-0003",
+    "description": "Brewnest Lite 1.2 L Steel Kettle",
+    "quantity": 5,
+    "unit_cost_inr": 1247,
+    "line_total_inr": 6235
+   },
+   {
+    "sku": "KET-0009",
+    "description": "Brewnest Nova 1.7 L Cool-Touch Kettle",
+    "quantity": 24,
+    "unit_cost_inr": 1321,
+    "line_total_inr": 31704
+   },
+   {
+    "sku": "TST-0008",
+    "description": "Kitchora Edge 2-Slice Sandwich Toaster",
+    "quantity": 12,
+    "unit_cost_inr": 1690,
+    "line_total_inr": 20280
+   },
+   {
+    "sku": "TST-0010",
+    "description": "Zestro Zen Long-Slot Sandwich Toaster",
+    "quantity": 10,
+    "unit_cost_inr": 1429,
+    "line_total_inr": 14290
+   }
+  ],
+  "subtotal_inr": 385878,
+  "gst_rate": 0.18,
+  "gst_inr": 69458,
+  "total_inr": 455336
+ },
+ {
+  "file": "invoice_06.pdf",
+  "invoice_number": "INV-2026-006",
+  "supplier": "Northfield Electricals",
+  "date": "2026-07-22",
+  "items": [
+   {
+    "sku": "AFR-0005",
+    "description": "Kitchora Pro 5 L Dual-Basket Air Fryer",
+    "quantity": 50,
+    "unit_cost_inr": 3372,
+    "line_total_inr": 168600
+   },
+   {
+    "sku": "AFR-0010",
+    "description": "Homiva Zen 6.2 L Digital Air Fryer",
+    "quantity": 30,
+    "unit_cost_inr": 4636,
+    "line_total_inr": 139080
+   },
+   {
+    "sku": "KET-0001",
+    "description": "Zestro Neo 1.2 L Steel Kettle",
+    "quantity": 24,
+    "unit_cost_inr": 703,
+    "line_total_inr": 16872
+   },
+   {
+    "sku": "KET-0005",
+    "description": "Homiva Pro 1.7 L Steel Kettle",
+    "quantity": 20,
+    "unit_cost_inr": 1499,
+    "line_total_inr": 29980
+   },
+   {
+    "sku": "KET-0006",
+    "description": "Brewnest Max 1.7 L Steel Kettle",
+    "quantity": 10,
+    "unit_cost_inr": 787,
+    "line_total_inr": 7870
+   },
+   {
+    "sku": "KET-0007",
+    "description": "Zestro Ace 1.8 L Steel Kettle",
+    "quantity": 50,
+    "unit_cost_inr": 1344,
+    "line_total_inr": 67200
+   },
+   {
+    "sku": "MXG-0001",
+    "description": "Zestro Neo 600 W 2-Jar Mixer Grinder",
+    "quantity": 12,
+    "unit_cost_inr": 4155,
+    "line_total_inr": 49860
+   },
+   {
+    "sku": "MXG-0002",
+    "description": "Kitchora Prime 600 W 3-Jar Mixer Grinder",
+    "quantity": 50,
+    "unit_cost_inr": 2906,
+    "line_total_inr": 145300
+   },
+   {
+    "sku": "MXG-0007",
+    "description": "Zestro Ace 1000 W 3-Jar Mixer Grinder",
+    "quantity": 12,
+    "unit_cost_inr": 3420,
+    "line_total_inr": 41040
+   },
+   {
+    "sku": "MXG-0008",
+    "description": "Kitchora Edge 600 W 2-Jar Mixer Grinder",
+    "quantity": 40,
+    "unit_cost_inr": 2917,
+    "line_total_inr": 116680
+   },
+   {
+    "sku": "MXG-0010",
+    "description": "Zestro Zen 500 W 2-Jar Mixer Grinder",
+    "quantity": 20,
+    "unit_cost_inr": 4729,
+    "line_total_inr": 94580
+   }
+  ],
+  "subtotal_inr": 877062,
+  "gst_rate": 0.18,
+  "gst_inr": 157871,
+  "total_inr": 1034933
+ },
+ {
+  "file": "invoice_07.pdf",
+  "invoice_number": "INV-2026-007",
+  "supplier": "Bluepeak Audio Supplies",
+  "date": "2026-08-08",
+  "items": [
+   {
+    "sku": "HPH-0001",
+    "description": "Zestro Neo Noise-Cancelling In-Ear Headphones",
+    "quantity": 5,
+    "unit_cost_inr": 1723,
+    "line_total_inr": 8615
+   },
+   {
+    "sku": "HPH-0002",
+    "description": "Voltara Prime Bluetooth In-Ear Headphones",
+    "quantity": 20,
+    "unit_cost_inr": 1084,
+    "line_total_inr": 21680
+   },
+   {
+    "sku": "HPH-0005",
+    "description": "Zestro Pro Bluetooth In-Ear Headphones",
+    "quantity": 5,
+    "unit_cost_inr": 3083,
+    "line_total_inr": 15415
+   },
+   {
+    "sku": "HPH-0006",
+    "description": "Voltara Max Noise-Cancelling Neckband Headphones",
+    "quantity": 5,
+    "unit_cost_inr": 3213,
+    "line_total_inr": 16065
+   },
+   {
+    "sku": "HPH-0007",
+    "description": "Zestro Ace Wireless Over-Ear Headphones",
+    "quantity": 5,
+    "unit_cost_inr": 6517,
+    "line_total_inr": 32585
+   },
+   {
+    "sku": "HPH-0008",
+    "description": "Voltara Edge Bluetooth Neckband Headphones",
+    "quantity": 10,
+    "unit_cost_inr": 2445,
+    "line_total_inr": 24450
+   },
+   {
+    "sku": "HPH-0009",
+    "description": "Zestro Nova Bluetooth Neckband Headphones",
+    "quantity": 24,
+    "unit_cost_inr": 1365,
+    "line_total_inr": 32760
+   },
+   {
+    "sku": "HPH-0010",
+    "description": "Voltara Zen Bluetooth Over-Ear Headphones",
+    "quantity": 20,
+    "unit_cost_inr": 1703,
+    "line_total_inr": 34060
+   }
+  ],
+  "subtotal_inr": 185630,
+  "gst_rate": 0.18,
+  "gst_inr": 33413,
+  "total_inr": 219043
+ },
+ {
+  "file": "invoice_08.pdf",
+  "invoice_number": "INV-2026-008",
+  "supplier": "Saffron Home Traders",
+  "date": "2026-04-06",
+  "items": [
+   {
+    "sku": "AFR-0003",
+    "description": "Voltara Lite 5 L Digital Air Fryer",
+    "quantity": 5,
+    "unit_cost_inr": 7160,
+    "line_total_inr": 35800
+   },
+   {
+    "sku": "COF-0003",
+    "description": "Homiva Lite Espresso Compact Coffee Maker",
+    "quantity": 10,
+    "unit_cost_inr": 1956,
+    "line_total_inr": 19560
+   },
+   {
+    "sku": "COF-0007",
+    "description": "Homiva Ace Cold Brew Steel Coffee Maker",
+    "quantity": 30,
+    "unit_cost_inr": 2278,
+    "line_total_inr": 68340
+   },
+   {
+    "sku": "COF-0008",
+    "description": "Brewnest Edge Drip Compact Coffee Maker",
+    "quantity": 10,
+    "unit_cost_inr": 2525,
+    "line_total_inr": 25250
+   },
+   {
+    "sku": "COF-0010",
+    "description": "Brewnest Zen Espresso Compact Coffee Maker",
+    "quantity": 20,
+    "unit_cost_inr": 2647,
+    "line_total_inr": 52940
+   },
+   {
+    "sku": "MXG-0007",
+    "description": "Zestro Ace 1000 W 3-Jar Mixer Grinder",
+    "quantity": 12,
+    "unit_cost_inr": 3556,
+    "line_total_inr": 42672
+   },
+   {
+    "sku": "TST-0004",
+    "description": "Zestro Plus Long-Slot Sandwich Toaster",
+    "quantity": 24,
+    "unit_cost_inr": 2353,
+    "line_total_inr": 56472
+   },
+   {
+    "sku": "TST-0006",
+    "description": "Brewnest Max 2-Slice Sandwich Toaster",
+    "quantity": 10,
+    "unit_cost_inr": 2095,
+    "line_total_inr": 20950
+   },
+   {
+    "sku": "TST-0008",
+    "description": "Kitchora Edge 2-Slice Sandwich Toaster",
+    "quantity": 10,
+    "unit_cost_inr": 1505,
+    "line_total_inr": 15050
+   },
+   {
+    "sku": "TST-0010",
+    "description": "Zestro Zen Long-Slot Sandwich Toaster",
+    "quantity": 5,
+    "unit_cost_inr": 1460,
+    "line_total_inr": 7300
+   }
+  ],
+  "subtotal_inr": 344334,
+  "gst_rate": 0.18,
+  "gst_inr": 61980,
+  "total_inr": 406314
+ },
+ {
+  "file": "invoice_09.pdf",
+  "invoice_number": "INV-2026-009",
+  "supplier": "Coastal Kitchenware Distributors",
+  "date": "2026-09-03",
+  "items": [
+   {
+    "sku": "COF-0003",
+    "description": "Homiva Lite Espresso Compact Coffee Maker",
+    "quantity": 24,
+    "unit_cost_inr": 2411,
+    "line_total_inr": 57864
+   },
+   {
+    "sku": "COF-0006",
+    "description": "Brewnest Max Cold Brew Steel Coffee Maker",
+    "quantity": 50,
+    "unit_cost_inr": 7883,
+    "line_total_inr": 394150
+   },
+   {
+    "sku": "KET-0001",
+    "description": "Zestro Neo 1.2 L Steel Kettle",
+    "quantity": 50,
+    "unit_cost_inr": 687,
+    "line_total_inr": 34350
+   },
+   {
+    "sku": "KET-0002",
+    "description": "Homiva Prime 1.2 L Cool-Touch Kettle",
+    "quantity": 24,
+    "unit_cost_inr": 524,
+    "line_total_inr": 12576
+   },
+   {
+    "sku": "KET-0006",
+    "description": "Brewnest Max 1.7 L Steel Kettle",
+    "quantity": 5,
+    "unit_cost_inr": 891,
+    "line_total_inr": 4455
+   },
+   {
+    "sku": "KET-0007",
+    "description": "Zestro Ace 1.8 L Steel Kettle",
+    "quantity": 5,
+    "unit_cost_inr": 1324,
+    "line_total_inr": 6620
+   },
+   {
+    "sku": "TST-0004",
+    "description": "Zestro Plus Long-Slot Sandwich Toaster",
+    "quantity": 5,
+    "unit_cost_inr": 2118,
+    "line_total_inr": 10590
+   },
+   {
+    "sku": "TST-0007",
+    "description": "Zestro Ace Long-Slot Pop-Up Toaster",
+    "quantity": 50,
+    "unit_cost_inr": 875,
+    "line_total_inr": 43750
+   },
+   {
+    "sku": "TST-0010",
+    "description": "Zestro Zen Long-Slot Sandwich Toaster",
+    "quantity": 12,
+    "unit_cost_inr": 1172,
+    "line_total_inr": 14064
+   }
+  ],
+  "subtotal_inr": 578419,
+  "gst_rate": 0.18,
+  "gst_inr": 104115,
+  "total_inr": 682534
+ },
+ {
+  "file": "invoice_10.pdf",
+  "invoice_number": "INV-2026-010",
+  "supplier": "Northfield Electricals",
+  "date": "2026-04-22",
+  "items": [
+   {
+    "sku": "AFR-0002",
+    "description": "Kitchora Prime 2.5 L Dual-Basket Air Fryer",
+    "quantity": 40,
+    "unit_cost_inr": 6986,
+    "line_total_inr": 279440
+   },
+   {
+    "sku": "AFR-0008",
+    "description": "Kitchora Edge 4.2 L Dual-Basket Air Fryer",
+    "quantity": 20,
+    "unit_cost_inr": 7323,
+    "line_total_inr": 146460
+   },
+   {
+    "sku": "KET-0003",
+    "description": "Brewnest Lite 1.2 L Steel Kettle",
+    "quantity": 5,
+    "unit_cost_inr": 1157,
+    "line_total_inr": 5785
+   },
+   {
+    "sku": "KET-0008",
+    "description": "Homiva Edge 1.2 L Cool-Touch Kettle",
+    "quantity": 40,
+    "unit_cost_inr": 972,
+    "line_total_inr": 38880
+   },
+   {
+    "sku": "MXG-0010",
+    "description": "Zestro Zen 500 W 2-Jar Mixer Grinder",
+    "quantity": 30,
+    "unit_cost_inr": 4969,
+    "line_total_inr": 149070
+   }
+  ],
+  "subtotal_inr": 619635,
+  "gst_rate": 0.18,
+  "gst_inr": 111534,
+  "total_inr": 731169
+ }
+]

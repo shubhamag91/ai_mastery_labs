@@ -1,0 +1,628 @@
+{
+ "SA-101976": {
+  "hash": "e95e0ccc40eeebbb",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home customer support. How may I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi, um, I'm calling about an order I received, it's damaged. My order number is SA-101976."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I'm sorry to hear that. Let me pull up your order. I see it's the Kitchora Pro 2-Slice Pop-Up Toaster, delivered on 24th April."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, that's right. Actually, when I opened the box, the toaster was dented and the lever was broken. It's unusable."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand. I can see you already requested a return for damage in transit, and it was approved."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, I did that online. I just wanted to confirm if I'll get a refund or store credit, and when."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Of course. According to our records, a refund has been processed to your original payment method. It should reflect within 3 to 5 business days."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Oh, that's good. And I can just keep or dispose the damaged toaster? Or do I need to send it back?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "Since it was damaged in transit, no need to return it. You can safely dispose of it or recycle."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Perfect, thank you. And the refund is full amount, right?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "Yes, full refund including any shipping charges. You'll also receive a confirmation email shortly."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Great, that's all I needed. Thanks for your help."
+   },
+   {
+    "speaker": "Agent",
+    "text": "You're welcome. Thank you for choosing ShopAI Home. Have a great day!"
+   }
+  ]
+ },
+ "SA-100241": {
+  "hash": "9d7e1f762397cde5",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home. My name is Raj. How can I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi Raj, I'm calling about a damaged air fryer I received."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I'm sorry to hear that. Could you please give me your order number?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Sure, it's SA-100241."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Let me check that. Yes, I see your order for the Homiva Ace 6.2 L Digital Air Fryer, delivered on June 4th."
+   },
+   {
+    "speaker": "Customer",
+    "text": "That's right. It arrived with a dent on the side. I already requested a return, and the status says approved."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I can confirm that. Our records show the return was approved due to damage in transit."
+   },
+   {
+    "speaker": "Customer",
+    "text": "So will I get a refund or store credit? It's been a few days."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Actually, the refund has already been processed. You should see the amount credited to your original payment method within 5 to 7 business days."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Oh, that's good to hear. I was worried it might take longer."
+   },
+   {
+    "speaker": "Agent",
+    "text": "No need to worry. The refund of 4,999 rupees was issued today. You'll receive a confirmation email shortly."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Perfect, thanks for checking."
+   },
+   {
+    "speaker": "Agent",
+    "text": "You're welcome. Is there anything else I can help you with?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "No, that's all. Have a good day."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home. Goodbye."
+   }
+  ]
+ },
+ "SA-100279": {
+  "hash": "9ea9bb580ecb8602",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home customer support. How may I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi, I need help with my order. It's SA-100279."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Let me pull that up. I see you ordered a Zestro Neo 600 W mixer grinder, delivered on June 12th."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, and it's defective. The motor makes a grinding noise and smokes. I requested a return, but it was rejected."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand. I see your return request was reviewed and unfortunately rejected because it was filed after the return window closed."
+   },
+   {
+    "speaker": "Customer",
+    "text": "But it's been barely two weeks! The product is clearly defective. I couldn't report earlier because I was out of town."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I'm sorry for the inconvenience. Our policy allows returns within 7 days of delivery, and your request came after that period."
+   },
+   {
+    "speaker": "Customer",
+    "text": "That's unfair! The product itself is faulty from the start. Can't you make an exception?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "I truly apologize, but the system will not allow me to override a rejected return. The decision is final."
+   },
+   {
+    "speaker": "Customer",
+    "text": "So I'm stuck with a broken mixer grinder? That's not acceptable."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I can suggest contacting the manufacturer for warranty service, as the product has a one-year warranty."
+   },
+   {
+    "speaker": "Customer",
+    "text": "But I bought it from you, not the manufacturer. This is ridiculous."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand your frustration, and I'm sorry there's nothing more I can do from my end."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Fine, I'll complain elsewhere. This is terrible customer service."
+   }
+  ]
+ },
+ "SA-102431": {
+  "hash": "261e5529cc627322",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home customer support. How may I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi, I'm calling about an order I placed, the order number is SA-102431."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Let me pull that up. Yes, I see it's for a Zestro Plus 1.5 L Cool-Touch Kettle."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Right, it arrived defective. I already requested a return and it was approved."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand. I can confirm your return was approved as defective."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Okay, but I'm calling because I haven't received any refund or store credit yet."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I can check that for you. It shows a refund was processed to your original payment method."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Oh, so it's already been paid? I didn't see it in my bank."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Yes, the refund has been issued. It may take 5 to 7 business days to reflect in your account."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Ah, okay. So I just need to wait a few more days?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "Exactly. If you don't see it by next week, please call us back and we'll investigate."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Great, that's all I needed. Thanks for confirming."
+   },
+   {
+    "speaker": "Agent",
+    "text": "You're welcome. Is there anything else I can help you with?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "No, that's all. Have a good day."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home. Goodbye."
+   }
+  ]
+ },
+ "SA-100778": {
+  "hash": "1a20a93b6d985258",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home customer support. My name is Ravi. How can I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi Ravi, I'm calling about an order I received. The order number is SA-100778."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Let me pull that up. I see your order for a Kitchora Pro 2-Slice Pop-Up Toaster."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, exactly. But the item that was delivered was wrong. I already requested a return."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I can see that. The return was approved. And according to our records, a refund has already been issued to your original payment method."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Oh, has it? I wasn't sure. How long will it take to show up?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "It typically takes 5 to 7 business days, depending on your bank. You should see it soon."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Okay, that's good to know. So I just need to wait for the refund to arrive then?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "Yes, but if you don't see it after 7 business days, please call us back and we'll investigate."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Alright, thank you. That helps a lot."
+   },
+   {
+    "speaker": "Agent",
+    "text": "You're welcome. Is there anything else I can assist you with today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "No, that's all. Thanks again."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home. Have a great day!"
+   }
+  ]
+ },
+ "SA-101257": {
+  "hash": "d549e2d0bd30b06f",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home customer support. How can I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi, I want to return an air fryer I bought. My order number is SA-101257."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Let me look that up. I see the order for the Homiva Plus 5 L Dual-Basket Air Fryer. You requested a return, but the status shows it was rejected."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, I know it was rejected, but I don't understand why. I just changed my mind, I haven't even opened the box."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand. However, our return policy allows returns only if the item is defective or damaged. Since your reason is 'changed mind', it doesn't qualify for a refund."
+   },
+   {
+    "speaker": "Customer",
+    "text": "But it's within the return window. I ordered on December 1st and received it on December 8th. That's less than two weeks."
+   },
+   {
+    "speaker": "Agent",
+    "text": "The time frame is fine, but the reason is not covered. For non-defective items, we cannot accept returns once delivered, unless there is a quality issue."
+   },
+   {
+    "speaker": "Customer",
+    "text": "I didn't know that. I thought I could return it if I didn't like it. Can you make an exception? The box is sealed."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I'm sorry, but our system does not allow returns for change of mind on this product category. There is no option to override the rejection."
+   },
+   {
+    "speaker": "Customer",
+    "text": "So there is nothing you can do? I'm stuck with an air fryer I don't need?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "Unfortunately, yes. You could consider selling it or gifting it. But we cannot process a refund or return in this case."
+   },
+   {
+    "speaker": "Customer",
+    "text": "This is really disappointing. I've bought from you before and never had this issue."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand your frustration, and I'm truly sorry we cannot help further. Is there anything else I can assist with today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "No, that's all. I'm not happy about this."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I apologize again. Thank you for calling ShopAI Home. Have a good day."
+   }
+  ]
+ },
+ "SA-101076": {
+  "hash": "3524e55492139760",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Good morning, this is ShopAI Home customer support. How may I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi, good morning. I'm calling about a return and refund. My order number is SA-101076."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Let me bring up your order. Could you please confirm the item?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, it's the Brewnest Max 1.7 L Steel Kettle."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Thank you. I see the order was delivered on November 18th, and you requested a return because you changed your mind."
+   },
+   {
+    "speaker": "Customer",
+    "text": "That's correct. The return was approved, and I was told I would get a refund or store credit."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Let me check the status. Yes, I see a refund was issued to your original payment method. You also had the option for store credit."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Oh, that's good. Um, how long will it take for the refund to show up?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "Typically, refunds appear within 5 to 7 business days, depending on your bank."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Okay, so by end of next week probably?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "Yes, you should see it by then. I'll also send you a confirmation email for your records."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Thank you. I was getting a bit worried, but that helps."
+   },
+   {
+    "speaker": "Agent",
+    "text": "You're welcome. Is there anything else I can help you with?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "No, that's all. Have a good day."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home. Have a great day!"
+   }
+  ]
+ },
+ "SA-100508": {
+  "hash": "f4b9ed3e334ac245",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home customer support. This is Rahul. How can I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi Rahul, I'm calling about my order. The order number is SA-100508."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Thank you. Let me check that for you. Can you tell me what the issue is?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, I ordered the Voltara Max Noise-Cancelling Neckband Headphones on August 2nd, but they were only delivered on August 11th. That's a big delay."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand your frustration. I see the order was placed on August 2nd and delivered on August 11th. That is longer than our standard delivery time."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Exactly. I expected it in 3-4 days, not 9 days. I want to know why this happened and if I can get any compensation."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I'm sorry for the inconvenience. I can see there may have been a logistical delay from our warehouse. Let me escalate this to our specialist team."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Okay, but I need a proper explanation and maybe some refund of delivery charges."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I completely understand. I have escalated your case now. The specialist team will review the delivery delay and get back to you within 24 hours with an update and possible compensation."
+   },
+   {
+    "speaker": "Customer",
+    "text": "That sounds fine. Will they call me on this number?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "Yes, they will call you on the number you have provided with the order. Please keep your phone reachable."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Okay, thank you for your help."
+   },
+   {
+    "speaker": "Agent",
+    "text": "You're welcome. Is there anything else I can assist you with today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "No, that's all."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home. Have a great day!"
+   }
+  ]
+ },
+ "SA-100403": {
+  "hash": "d54e848673740c4c",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home customer support. How can I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi, I'm calling about my order. It's been over a week and I still haven't received it."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I'm sorry to hear that. Could you please give me your order number?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, it's SA-100403."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Thank you. Let me check that for you. Just a moment."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Sure."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I can see your order for the Homiva Plus 5 L Dual-Basket Air Fryer was placed on July 9th. It shows delivered on July 17th."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Delivered? But I haven't received anything. I've been home all day."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand. Let me look into the delivery details. Um, it shows delivered at your address, but I'll need to verify with the courier."
+   },
+   {
+    "speaker": "Customer",
+    "text": "This is really frustrating. I needed that air fryer for a family function."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I completely understand your concern. I'll escalate this to our specialist team right away."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Okay, how long will that take?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "They'll investigate with the courier and call you back within 24 to 48 hours. Is the number on file okay?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, that's fine."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Thank you for your patience. We'll get this sorted out for you."
+   }
+  ]
+ },
+ "SA-102575": {
+  "hash": "0fccca27379f08ff",
+  "lines": [
+   {
+    "speaker": "Agent",
+    "text": "Thank you for calling ShopAI Home. How can I help you today?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Hi, I'm calling about my order, um, SA-102575."
+   },
+   {
+    "speaker": "Agent",
+    "text": "Let me pull that up. It's for a Voltara Nova mixer grinder, correct?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "Yes, that's right. I wanted to know if there's any chance of getting some compensation? The delivery took longer than expected."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand. Looking at the details, the order was placed on July 31st and delivered on August 5th. That's within our standard 5 to 7 day window."
+   },
+   {
+    "speaker": "Customer",
+    "text": "But the product page said it would arrive in 3 to 4 days when I ordered."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I see. Actually, due to high demand, delivery times were adjusted after your order was placed. We did send an update email."
+   },
+   {
+    "speaker": "Customer",
+    "text": "I didn't receive any email. And I was really counting on it for a function."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I'm sorry for the inconvenience. However, since the delivery was within our policy timeframe, we're unable to offer any compensation."
+   },
+   {
+    "speaker": "Customer",
+    "text": "That's disappointing. So there's really nothing you can do?"
+   },
+   {
+    "speaker": "Agent",
+    "text": "Unfortunately, no. The delivery was on time according to our service standards, and no refund or discount is applicable."
+   },
+   {
+    "speaker": "Customer",
+    "text": "Well, that's not fair. I might not order from you again."
+   },
+   {
+    "speaker": "Agent",
+    "text": "I understand your frustration. Is there anything else I can help with regarding the product itself?"
+   },
+   {
+    "speaker": "Customer",
+    "text": "No, that's all. Thanks for nothing."
+   }
+  ]
+ }
+}

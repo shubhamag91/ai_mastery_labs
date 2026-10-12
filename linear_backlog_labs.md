@@ -229,6 +229,7 @@ Python + `uv` · FastAPI · Streamlit (calls the API over HTTP) · Postgres + pg
     The API has no memory: a chatbot "remembers" only because your code resends the whole conversation every turn. Build that yourself, then send the model something that isn't text.
 
     #### Tasks:
+    - [ ] First, finish the photos deferred from Lab 0.3 (`data/SPEC.md` P11 and P12). Choose a route (an image-generation API, phone photos, or real photos only with a smaller spec), fill in `scripts/datagen/image_selection.csv`, set `DEFERRED = False` in `scripts/datagen/images.py`, and run `make data`. Done when `manifest.json` no longer lists P11 and P12 under `pending` and their 0.P tests pass without the expected-failure marks. Adds roughly 30–60 minutes.
     - [ ] Build a small command-line chat that stores the message history in a list and resends it each turn.
     - [ ] Log input tokens per turn and chart how they grow over a 10-turn conversation.
     - [ ] Send a product photo from `data/images/` and ask for a description; then send a damaged-return photo and ask what is wrong with the item.

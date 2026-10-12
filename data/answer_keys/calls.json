@@ -1,0 +1,82 @@
+[
+ {
+  "file": "call_01.m4a",
+  "order_number": "SA-101976",
+  "transcript": "Agent: Thank you for calling ShopAI Home customer support. How may I help you today?\nCustomer: Hi, um, I'm calling about an order I received, it's damaged. My order number is SA-101976.\nAgent: I'm sorry to hear that. Let me pull up your order. I see it's the Kitchora Pro 2-Slice Pop-Up Toaster, delivered on 24th April.\nCustomer: Yes, that's right. Actually, when I opened the box, the toaster was dented and the lever was broken. It's unusable.\nAgent: I understand. I can see you already requested a return for damage in transit, and it was approved.\nCustomer: Yes, I did that online. I just wanted to confirm if I'll get a refund or store credit, and when.\nAgent: Of course. According to our records, a refund has been processed to your original payment method. It should reflect within 3 to 5 business days.\nCustomer: Oh, that's good. And I can just keep or dispose the damaged toaster? Or do I need to send it back?\nAgent: Since it was damaged in transit, no need to return it. You can safely dispose of it or recycle.\nCustomer: Perfect, thank you. And the refund is full amount, right?\nAgent: Yes, full refund including any shipping charges. You'll also receive a confirmation email shortly.\nCustomer: Great, that's all I needed. Thanks for your help.\nAgent: You're welcome. Thank you for choosing ShopAI Home. Have a great day!",
+  "issue": "damaged_on_arrival",
+  "outcome": "refund",
+  "seconds": 86.1
+ },
+ {
+  "file": "call_02.m4a",
+  "order_number": "SA-100241",
+  "transcript": "Agent: Thank you for calling ShopAI Home. My name is Raj. How can I help you today?\nCustomer: Hi Raj, I'm calling about a damaged air fryer I received.\nAgent: I'm sorry to hear that. Could you please give me your order number?\nCustomer: Sure, it's SA-100241.\nAgent: Let me check that. Yes, I see your order for the Homiva Ace 6.2 L Digital Air Fryer, delivered on June 4th.\nCustomer: That's right. It arrived with a dent on the side. I already requested a return, and the status says approved.\nAgent: I can confirm that. Our records show the return was approved due to damage in transit.\nCustomer: So will I get a refund or store credit? It's been a few days.\nAgent: Actually, the refund has already been processed. You should see the amount credited to your original payment method within 5 to 7 business days.\nCustomer: Oh, that's good to hear. I was worried it might take longer.\nAgent: No need to worry. The refund of 4,999 rupees was issued today. You'll receive a confirmation email shortly.\nCustomer: Perfect, thanks for checking.\nAgent: You're welcome. Is there anything else I can help you with?\nCustomer: No, that's all. Have a good day.\nAgent: Thank you for calling ShopAI Home. Goodbye.",
+  "issue": "damaged_on_arrival",
+  "outcome": "refund",
+  "seconds": 75.0
+ },
+ {
+  "file": "call_03.m4a",
+  "order_number": "SA-100279",
+  "transcript": "Agent: Thank you for calling ShopAI Home customer support. How may I help you today?\nCustomer: Hi, I need help with my order. It's SA-100279.\nAgent: Let me pull that up. I see you ordered a Zestro Neo 600 W mixer grinder, delivered on June 12th.\nCustomer: Yes, and it's defective. The motor makes a grinding noise and smokes. I requested a return, but it was rejected.\nAgent: I understand. I see your return request was reviewed and unfortunately rejected because it was filed after the return window closed.\nCustomer: But it's been barely two weeks! The product is clearly defective. I couldn't report earlier because I was out of town.\nAgent: I'm sorry for the inconvenience. Our policy allows returns within 7 days of delivery, and your request came after that period.\nCustomer: That's unfair! The product itself is faulty from the start. Can't you make an exception?\nAgent: I truly apologize, but the system will not allow me to override a rejected return. The decision is final.\nCustomer: So I'm stuck with a broken mixer grinder? That's not acceptable.\nAgent: I can suggest contacting the manufacturer for warranty service, as the product has a one-year warranty.\nCustomer: But I bought it from you, not the manufacturer. This is ridiculous.\nAgent: I understand your frustration, and I'm sorry there's nothing more I can do from my end.\nCustomer: Fine, I'll complain elsewhere. This is terrible customer service.",
+  "issue": "product_defect",
+  "outcome": "no_resolution",
+  "seconds": 88.1
+ },
+ {
+  "file": "call_04.m4a",
+  "order_number": "SA-102431",
+  "transcript": "Agent: Thank you for calling ShopAI Home customer support. How may I help you today?\nCustomer: Hi, I'm calling about an order I placed, the order number is SA-102431.\nAgent: Let me pull that up. Yes, I see it's for a Zestro Plus 1.5 L Cool-Touch Kettle.\nCustomer: Right, it arrived defective. I already requested a return and it was approved.\nAgent: I understand. I can confirm your return was approved as defective.\nCustomer: Okay, but I'm calling because I haven't received any refund or store credit yet.\nAgent: I can check that for you. It shows a refund was processed to your original payment method.\nCustomer: Oh, so it's already been paid? I didn't see it in my bank.\nAgent: Yes, the refund has been issued. It may take 5 to 7 business days to reflect in your account.\nCustomer: Ah, okay. So I just need to wait a few more days?\nAgent: Exactly. If you don't see it by next week, please call us back and we'll investigate.\nCustomer: Great, that's all I needed. Thanks for confirming.\nAgent: You're welcome. Is there anything else I can help you with?\nCustomer: No, that's all. Have a good day.\nAgent: Thank you for calling ShopAI Home. Goodbye.",
+  "issue": "product_defect",
+  "outcome": "refund",
+  "seconds": 72.3
+ },
+ {
+  "file": "call_05.m4a",
+  "order_number": "SA-100778",
+  "transcript": "Agent: Thank you for calling ShopAI Home customer support. My name is Ravi. How can I help you today?\nCustomer: Hi Ravi, I'm calling about an order I received. The order number is SA-100778.\nAgent: Let me pull that up. I see your order for a Kitchora Pro 2-Slice Pop-Up Toaster.\nCustomer: Yes, exactly. But the item that was delivered was wrong. I already requested a return.\nAgent: I can see that. The return was approved. And according to our records, a refund has already been issued to your original payment method.\nCustomer: Oh, has it? I wasn't sure. How long will it take to show up?\nAgent: It typically takes 5 to 7 business days, depending on your bank. You should see it soon.\nCustomer: Okay, that's good to know. So I just need to wait for the refund to arrive then?\nAgent: Yes, but if you don't see it after 7 business days, please call us back and we'll investigate.\nCustomer: Alright, thank you. That helps a lot.\nAgent: You're welcome. Is there anything else I can assist you with today?\nCustomer: No, that's all. Thanks again.\nAgent: Thank you for calling ShopAI Home. Have a great day!",
+  "issue": "wrong_item",
+  "outcome": "refund",
+  "seconds": 69.7
+ },
+ {
+  "file": "call_06.m4a",
+  "order_number": "SA-101257",
+  "transcript": "Agent: Thank you for calling ShopAI Home customer support. How can I help you today?\nCustomer: Hi, I want to return an air fryer I bought. My order number is SA-101257.\nAgent: Let me look that up. I see the order for the Homiva Plus 5 L Dual-Basket Air Fryer. You requested a return, but the status shows it was rejected.\nCustomer: Yes, I know it was rejected, but I don't understand why. I just changed my mind, I haven't even opened the box.\nAgent: I understand. However, our return policy allows returns only if the item is defective or damaged. Since your reason is 'changed mind', it doesn't qualify for a refund.\nCustomer: But it's within the return window. I ordered on December 1st and received it on December 8th. That's less than two weeks.\nAgent: The time frame is fine, but the reason is not covered. For non-defective items, we cannot accept returns once delivered, unless there is a quality issue.\nCustomer: I didn't know that. I thought I could return it if I didn't like it. Can you make an exception? The box is sealed.\nAgent: I'm sorry, but our system does not allow returns for change of mind on this product category. There is no option to override the rejection.\nCustomer: So there is nothing you can do? I'm stuck with an air fryer I don't need?\nAgent: Unfortunately, yes. You could consider selling it or gifting it. But we cannot process a refund or return in this case.\nCustomer: This is really disappointing. I've bought from you before and never had this issue.\nAgent: I understand your frustration, and I'm truly sorry we cannot help further. Is there anything else I can assist with today?\nCustomer: No, that's all. I'm not happy about this.\nAgent: I apologize again. Thank you for calling ShopAI Home. Have a good day.",
+  "issue": "returns_refunds",
+  "outcome": "no_resolution",
+  "seconds": 107.2
+ },
+ {
+  "file": "call_07.m4a",
+  "order_number": "SA-101076",
+  "transcript": "Agent: Good morning, this is ShopAI Home customer support. How may I help you today?\nCustomer: Hi, good morning. I'm calling about a return and refund. My order number is SA-101076.\nAgent: Let me bring up your order. Could you please confirm the item?\nCustomer: Yes, it's the Brewnest Max 1.7 L Steel Kettle.\nAgent: Thank you. I see the order was delivered on November 18th, and you requested a return because you changed your mind.\nCustomer: That's correct. The return was approved, and I was told I would get a refund or store credit.\nAgent: Let me check the status. Yes, I see a refund was issued to your original payment method. You also had the option for store credit.\nCustomer: Oh, that's good. Um, how long will it take for the refund to show up?\nAgent: Typically, refunds appear within 5 to 7 business days, depending on your bank.\nCustomer: Okay, so by end of next week probably?\nAgent: Yes, you should see it by then. I'll also send you a confirmation email for your records.\nCustomer: Thank you. I was getting a bit worried, but that helps.\nAgent: You're welcome. Is there anything else I can help you with?\nCustomer: No, that's all. Have a good day.\nAgent: Thank you for calling ShopAI Home. Have a great day!",
+  "issue": "returns_refunds",
+  "outcome": "refund",
+  "seconds": 76.5
+ },
+ {
+  "file": "call_08.m4a",
+  "order_number": "SA-100508",
+  "transcript": "Agent: Thank you for calling ShopAI Home customer support. This is Rahul. How can I help you today?\nCustomer: Hi Rahul, I'm calling about my order. The order number is SA-100508.\nAgent: Thank you. Let me check that for you. Can you tell me what the issue is?\nCustomer: Yes, I ordered the Voltara Max Noise-Cancelling Neckband Headphones on August 2nd, but they were only delivered on August 11th. That's a big delay.\nAgent: I understand your frustration. I see the order was placed on August 2nd and delivered on August 11th. That is longer than our standard delivery time.\nCustomer: Exactly. I expected it in 3-4 days, not 9 days. I want to know why this happened and if I can get any compensation.\nAgent: I'm sorry for the inconvenience. I can see there may have been a logistical delay from our warehouse. Let me escalate this to our specialist team.\nCustomer: Okay, but I need a proper explanation and maybe some refund of delivery charges.\nAgent: I completely understand. I have escalated your case now. The specialist team will review the delivery delay and get back to you within 24 hours with an update and possible compensation.\nCustomer: That sounds fine. Will they call me on this number?\nAgent: Yes, they will call you on the number you have provided with the order. Please keep your phone reachable.\nCustomer: Okay, thank you for your help.\nAgent: You're welcome. Is there anything else I can assist you with today?\nCustomer: No, that's all.\nAgent: Thank you for calling ShopAI Home. Have a great day!",
+  "issue": "delivery_delay",
+  "outcome": "escalated",
+  "seconds": 91.2
+ },
+ {
+  "file": "call_09.m4a",
+  "order_number": "SA-100403",
+  "transcript": "Agent: Thank you for calling ShopAI Home customer support. How can I help you today?\nCustomer: Hi, I'm calling about my order. It's been over a week and I still haven't received it.\nAgent: I'm sorry to hear that. Could you please give me your order number?\nCustomer: Yes, it's SA-100403.\nAgent: Thank you. Let me check that for you. Just a moment.\nCustomer: Sure.\nAgent: I can see your order for the Homiva Plus 5 L Dual-Basket Air Fryer was placed on July 9th. It shows delivered on July 17th.\nCustomer: Delivered? But I haven't received anything. I've been home all day.\nAgent: I understand. Let me look into the delivery details. Um, it shows delivered at your address, but I'll need to verify with the courier.\nCustomer: This is really frustrating. I needed that air fryer for a family function.\nAgent: I completely understand your concern. I'll escalate this to our specialist team right away.\nCustomer: Okay, how long will that take?\nAgent: They'll investigate with the courier and call you back within 24 to 48 hours. Is the number on file okay?\nCustomer: Yes, that's fine.\nAgent: Thank you for your patience. We'll get this sorted out for you.",
+  "issue": "delivery_delay",
+  "outcome": "escalated",
+  "seconds": 70.2
+ },
+ {
+  "file": "call_10.m4a",
+  "order_number": "SA-102575",
+  "transcript": "Agent: Thank you for calling ShopAI Home. How can I help you today?\nCustomer: Hi, I'm calling about my order, um, SA-102575.\nAgent: Let me pull that up. It's for a Voltara Nova mixer grinder, correct?\nCustomer: Yes, that's right. I wanted to know if there's any chance of getting some compensation? The delivery took longer than expected.\nAgent: I understand. Looking at the details, the order was placed on July 31st and delivered on August 5th. That's within our standard 5 to 7 day window.\nCustomer: But the product page said it would arrive in 3 to 4 days when I ordered.\nAgent: I see. Actually, due to high demand, delivery times were adjusted after your order was placed. We did send an update email.\nCustomer: I didn't receive any email. And I was really counting on it for a function.\nAgent: I'm sorry for the inconvenience. However, since the delivery was within our policy timeframe, we're unable to offer any compensation.\nCustomer: That's disappointing. So there's really nothing you can do?\nAgent: Unfortunately, no. The delivery was on time according to our service standards, and no refund or discount is applicable.\nCustomer: Well, that's not fair. I might not order from you again.\nAgent: I understand your frustration. Is there anything else I can help with regarding the product itself?\nCustomer: No, that's all. Thanks for nothing.",
+  "issue": "customer_service",
+  "outcome": "no_resolution",
+  "seconds": 84.1
+ }
+]

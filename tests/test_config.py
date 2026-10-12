@@ -10,7 +10,7 @@ KEY = "sk-ant-test-key"
 def clean_env(monkeypatch):
     # Tests must not depend on the shell they run in. Each test also passes
     # _env_file explicitly, so the developer's own .env is never read.
-    for name in ("ANTHROPIC_API_KEY", "LOG_LEVEL", "ENVIRONMENT"):
+    for name in ("ANTHROPIC_API_KEY", "DEEPSEEK_API_KEY", "LOG_LEVEL", "ENVIRONMENT"):
         monkeypatch.delenv(name, raising=False)
 
 
@@ -24,6 +24,7 @@ def test_defaults_apply_when_only_the_key_is_set(monkeypatch):
     settings = Settings(_env_file=None)
     assert settings.log_level == "INFO"
     assert settings.environment == "local"
+    assert settings.deepseek_api_key is None
 
 
 def test_api_key_is_masked_when_printed(monkeypatch):

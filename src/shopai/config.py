@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     anthropic_api_key: SecretStr  # required: no default, so startup fails without it
+    deepseek_api_key: SecretStr | None = None  # optional: only the data generator uses it
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
     environment: Literal["local", "ci", "production"] = "local"
 

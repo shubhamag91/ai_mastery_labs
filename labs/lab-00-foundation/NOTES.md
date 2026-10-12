@@ -257,3 +257,228 @@ No measurements: this task produces a document, not data.
 
 **Still unclear**
 - Some rules can't be checked by a test: that brand names are invented, that a photo really shows the stated category, that a review is really about its intended theme. 0.P will need to sample these by eye, or accept them as unchecked.
+
+## 0.3 Generate the Synthetic Retailer Data
+
+**Question this answered:** How do you build a dataset from a written spec, mixing seeded code, LLM-written text and media files, so that one command rebuilds it identically, even though an LLM never gives the same answer twice?
+
+**Concepts:** #58 Data contracts · #54 Project structure & dependencies (repeatable builds) · a first look at #59 Retries, idempotency & resumable jobs and #56 Structured logging. There's no Q&A file for this task in [qa/](qa/).
+
+**What I built**
+
+A generator in [scripts/datagen/](../../scripts/datagen/), one module per stage, run in order by [`make data`](../../Makefile#L17):
+
+| Stage | Module | Makes | Who writes the content |
+|---|---|---|---|
+| 2 | [tables.py](../../scripts/datagen/tables.py) | `shop.db`: customers, products, orders, returns, refunds | Code: Faker and seed 42 |
+| 3 | [reviews.py](../../scripts/datagen/reviews.py) | 500 reviews and tickets → `reviews.csv`, the `reviews` table, `answer_keys/review_labels.csv` | Code plans each row; DeepSeek writes the text; code inserts the planted cases |
+| 5 | [docs.py](../../scripts/datagen/docs.py) | 17 PDFs in `docs/`, `answer_keys/invoices.json` | DeepSeek writes the policy and manuals; invoices are code only |
+| 6 | [calls.py](../../scripts/datagen/calls.py) | 10 calls in `audio/`, `answer_keys/calls.json` | DeepSeek writes the scripts; macOS `say` voices them |
+| 7 | [images.py](../../scripts/datagen/images.py) | Nothing yet: **deferred to Lab 1.4** | `fetch` gathers free-licence candidates; `build` skips while deferred |
+| 8 | [manifest.py](../../scripts/datagen/manifest.py) | `manifest.json`, and a check against the 50 MB budget | Code |
+
+Supporting pieces:
+- [common.py](../../scripts/datagen/common.py): the constants every stage shares, each taken from the spec (seed, paths, snapshot date, the fixed file time).
+- [llm.py](../../scripts/datagen/llm.py): a small DeepSeek client with JSON replies, retries, token counting and a cost upper bound.
+- **Record-and-replay caches** in `data/.cache/`: every accepted LLM reply, committed with the data (`review_texts.json` 495 entries, `docs.json` 20, `calls.json` 10). Downloaded photo candidates are git-ignored ([.gitignore](../../.gitignore)).
+- A `datagen` dependency group in [pyproject.toml](../../pyproject.toml#L23-L28) (faker, fpdf2, openai, pillow), kept apart from the app's runtime dependencies so none of it ends up in the Docker image.
+- An optional `DEEPSEEK_API_KEY` setting in [config.py](../../src/shopai/config.py#L15) and [.env.example](../../.env.example). The [config tests](../../tests/test_config.py) clear it too, so a key in your shell can't change a test result.
+- Spec changes in [data/SPEC.md](../../data/SPEC.md): the snapshot-date rule, DeepSeek as the text model, the allowed image licences, the photo deferral, and `pending` in the manifest.
+- The break test: [experiments/rerun_diff.py](experiments/rerun_diff.py) → [results/rerun_diff.md](results/rerun_diff.md).
+
+**How it works**
+
+### 1. Code decides; the LLM only writes the words
+
+The generator never asks the LLM for anything that must be exact. [`plan()`](../../scripts/datagen/reviews.py#L184) decides everything about each of the 500 rows except its text: kind, theme, star rating, writing style, length and which order it belongs to. DeepSeek then gets one brief per row and fills in only the words.
+
+- **Exact distributions, not "roughly".** Ratings come from a fixed quota ([`RATING_QUOTA`](../../scripts/datagen/reviews.py#L63): 160/80/40/40/80, the J-shape real review sites show), handed out by how positive each theme usually is. Asking an LLM for "about 40% five-star" gets whatever it feels like.
+- **The text agrees with the tables.** [`order_pool()`](../../scripts/datagen/reviews.py#L171) gives a "damaged on arrival" review only to an order whose return reason is `damaged_in_transit`, and a "delivery delay" review only to an order that took 6 or more days. [`facts()`](../../scripts/datagen/reviews.py#L298) puts that order's real history into the brief ("delivered 3 days after ordering; a return was requested (damaged in transit) and approved, refund not paid yet"). In Lab 7, an SQL answer and a review about the same order won't contradict each other.
+- **Arithmetic never goes near the LLM.** Invoices are pure code ([`make_invoices()`](../../scripts/datagen/docs.py#L211)), and `invoices.json` is written from the same numbers printed on the PDFs, so the answer key can't disagree with the document. GST is rounded half up to the rupee using integer arithmetic ([line 233](../../scripts/datagen/docs.py#L233)).
+- **One rules sheet for every document.** The policy's 14 sections are written separately, but all from one shared [`RULES`](../../scripts/datagen/docs.py#L37) list that copies how the tables behave: the 10-day window, refunds within 10 days, cash-on-delivery refunded as store credit. [`wrong_window()`](../../scripts/datagen/docs.py#L114) rejects any section that mentions a window other than 10 days.
+- **Calls are about real orders.** [`pick_calls()`](../../scripts/datagen/calls.py#L53) chooses each call's issue and outcome from what the tables say happened to that order, and the script must say that exact order number once ([`script_problem()`](../../scripts/datagen/calls.py#L118)). Order numbers are spelled out for the voice by [`spoken()`](../../scripts/datagen/calls.py#L153): `SA-102417` becomes "S A, 1 0 2 4 1 7".
+
+### 2. Check every reply before accepting it
+
+An LLM doesn't always follow its brief, so every reply passes a check before it's stored.
+
+- [`problem()`](../../scripts/datagen/reviews.py#L338) rejects text that is empty or the wrong length, or that contains anything shaped like a SKU, order number, email or phone number, or injection-like wording. This **protects the planted cases**: P1, P2 and P5 promise that a pattern appears in *exactly one* row. If DeepSeek spontaneously wrote "my order SA-101234", the contract would break without anyone planting anything.
+- Rejected rows go into the next round with smaller batches: 20, then 10, then 1 per request ([`generate()`](../../scripts/datagen/reviews.py#L373)). A brief that got ignored among 20 is usually followed when it's alone.
+- Only then does code insert the planted cases with exact strings ([`final_text()`](../../scripts/datagen/reviews.py#L415)) and verify them ([`check_planted()`](../../scripts/datagen/reviews.py#L485)).
+- [tables.py](../../scripts/datagen/tables.py#L373) prints a PASS/FAIL line for 19 spec rules after every build. The [SQL schema](../../scripts/datagen/tables.py#L26) enforces whatever SQL can express (`CHECK`, `UNIQUE`, foreign keys) as a last line of defence. Lab 0.P turns these into proper tests.
+
+### 3. Record and replay: reproducible, even though the LLM isn't
+
+A seed makes Python's `random` and Faker repeat themselves: seed 42 gives the same 500 customers on every run, as long as the Faker version pinned in `uv.lock` doesn't change. A seed can't reach an LLM, which runs on someone else's servers (see the break test below). So the generator **records** every accepted reply and **replays** it:
+
+```
+row's brief ──hash──▶ <hash> ──▶ already in data/.cache/review_texts.json?
+                                   yes, same hash → reuse the stored text ($0)
+                                   no             → call DeepSeek, check the reply, store it
+```
+
+- The key is a hash of the brief ([`brief_hash()`](../../scripts/datagen/reviews.py#L334)), or of the whole prompt for docs and calls ([`cached_call()`](../../scripts/datagen/docs.py#L97)). Change one row's brief and only that row is regenerated; everything else replays.
+- The cache is saved after every batch ([line 408](../../scripts/datagen/reviews.py#L408)), so a crash or Ctrl+C never loses text that has already been paid for. Rerunning picks up where it stopped: a first taste of resumable jobs (#59).
+- The caches and the outputs are both committed, so `make data` makes no API calls and costs $0.
+- [manifest.json](../../data/manifest.json) records how this copy was made: seed, provider, model, the date the text was generated, row counts, and what's `pending`. The text date is [a fixed constant](../../scripts/datagen/manifest.py#L16), not "today", so a rebuild doesn't change the manifest either.
+
+### 4. Byte-identical rebuilds: the hidden timestamps
+
+Same content isn't the same as same bytes. A checksum (`shasum -a 256`) is a fingerprint of a file's exact bytes: change one byte and the fingerprint changes completely. I fingerprinted every data file, rebuilt with `make data`, and fingerprinted again:
+
+| Comparison | Identical | Different |
+|---|---|---|
+| Before and after one rebuild, before the fix | 8: `shop.db`, `reviews.csv`, the 3 answer keys, the 3 caches | 27: all 17 PDFs and all 10 calls |
+| Two rebuilds after the fix | **36 of 36** (the same 35, plus `manifest.json`) | 0 |
+
+The content was the same in all 27 files; the differences were timestamps that the file formats write in:
+- **PDFs:** fpdf2 writes `/CreationDate` (the moment of the run) into every file. The PDF's `/ID` is a fingerprint fpdf2 computes from the file's own bytes, date included, so it changed too.
+- **Audio:** an `.m4a` is a tree of "boxes". Three of them (`mvhd` for the file, `tkhd` for the track, `mdhd` for the audio) each store a "created" and a "modified" time, and `afconvert` fills them with "now". A test showed the voice itself is deterministic: the same sentence through `say` twice gave identical WAV files. The same WAV encoded twice, 9 seconds apart, gave two 19,832-byte files that differed in **6 bytes**: the timestamps.
+
+The fix is to stamp every file with one fixed time, the snapshot date ([`FILE_TIME`](../../scripts/datagen/common.py#L17)). For the PDFs that's [one line](../../scripts/datagen/docs.py#L168). For the audio, [`pin_timestamps()`](../../scripts/datagen/calls.py#L189) walks the box tree, overwrites the six fields, and stops with an error unless it finds exactly three timestamp boxes. Build systems that care about reproducible output do the same; the common convention is [`SOURCE_DATE_EPOCH`](https://reproducible-builds.org/docs/source-date-epoch/).
+
+Why it matters: without the fix, every `make data` shows 27 binary files as changed in git. A real change, such as a planted case going missing, would hide in that noise, and anyone who committed a rebuild would add about 4 MB of date-only changes to the history permanently.
+
+### 5. A known gap, declared rather than hidden: the photos
+
+The spec asks for 12 product photos and 20 damaged-return photos (P11, P12). [`images.py fetch`](../../scripts/datagen/images.py#L45) searched Openverse, a search engine for free-licence images, and downloaded 109 candidates. Judged by eye from the contact sheets:
+
+| Category | Usable product photos | Usable damaged photos |
+|---|---|---|
+| kettle | 4, all 1930s museum shots | about 2 |
+| toaster | 1 | about 4 |
+| headphones | 1–2 (one shows a real brand) | about 6 |
+| coffee maker | 0–1 (the good one is a real brand) | about 3 |
+| mixer grinder | 0 | 0 |
+| air fryer | 0 | 0 (the search found nothing) |
+
+Almost every usable damaged photo showed a `broken_part`, so Lab 2.4's damage classifier would have had little to tell apart.
+
+The options were: generate them with an image model; take them on a phone; use only the real photos with a smaller spec; or defer. The Claude API reads images but can't create them, and pictures drawn by Claude-written code would mean Claude grading its own pictures, which is the problem the spec avoided for text by using DeepSeek. **Chosen: defer to Lab 1.4**, the first lab that needs the photos.
+
+The gap is declared in four places, so it can't be forgotten:
+- **The spec:** a status note in [section 4](../../data/SPEC.md#4-files), and on P11 and P12.
+- **The generator:** a [`DEFERRED = True`](../../scripts/datagen/images.py#L34) switch makes `build` print a message and change nothing ([line 174](../../scripts/datagen/images.py#L174)). It's a deliberate switch rather than "skip when nothing is selected", because an accidentally emptied selection must still fail loudly.
+- **The manifest:** `"pending": ["P11", "P12"]`, read from the same switch ([manifest.py](../../scripts/datagen/manifest.py#L45)), so turning the switch off clears it.
+- **0.P:** the P11 and P12 tests will be marked as expected failures that name Lab 1.4.
+
+What deferring costs: the dataset doesn't fully meet its contract until Lab 1.4; adding the photos later rewrites `shop.db` (`returns.photo_file`) and the manifest; and "later" tends to become "never" unless something tracks it.
+
+### 6. Model choice and cost controls
+
+- **DeepSeek `deepseek-v4-pro` writes the text, not Claude.** It's a different model family, so the labs don't test Claude on text Claude wrote. DeepSeek's API accepts OpenAI's request format, so the `openai` library talks to it ([llm.py](../../scripts/datagen/llm.py#L1-L5)).
+- **Thinking is off** ([line 59](../../scripts/datagen/llm.py#L59)). In the pilot, reasoning was about 7 of every 8 output tokens billed, and writing reviews doesn't need it.
+- **Pilot first.** `reviews --pilot` writes 10 rows, one per theme, so the quality can be checked before paying for 490 more ([line 524](../../scripts/datagen/reviews.py#L524)).
+- **Every call is logged** as a structured `llm_call` event with its token counts and duration (#56), and each stage prints a cost upper bound at peak rates.
+- **Temperature 1.0** ([line 58](../../scripts/datagen/llm.py#L58)): varied wording is the point for synthetic reviews. The cache, not the temperature, is what makes the data reproducible.
+
+**Results**
+
+Spec checks printed by [tables.py](../../scripts/datagen/tables.py#L443), rerun read-only against the final `shop.db`. All 19 pass:
+
+| Rule | Value |
+|---|---|
+| No orphan rows | 0 found |
+| Customers / products / orders | 500 / 60 (10 per category, 5 brands) / 3,000 |
+| Delivered | 94.4% (spec 93–97%) |
+| Orders with quantity 1 | 85.1% (spec 80%+) |
+| Customers who never ordered | 5.0% (spec 3–8%) |
+| Returns / refunds | 226 (spec 200–260) / 178 (spec 150–220) |
+| Returns within 10 days | 92.0% (spec 90%+); every late return rejected |
+| Approved returns not yet refunded (P14) | 12 (spec 10+) |
+| `AFR-0007` (P1) / order 2417 (P2) | 41 orders / delivered, `SA-102417` |
+| Latest date anywhere | 2026-10-07 (snapshot 2026-10-10) |
+
+Reviews, queried from `shop.db` and [review_labels.csv](../../data/answer_keys/review_labels.csv):
+
+| Measure | Value | Spec |
+|---|---|---|
+| Kinds | 400 reviews, 100 tickets | 400 / 100 |
+| Ratings 5★ to 1★ | 160 / 80 / 40 / 40 / 80 (40 / 20 / 10 / 10 / 20%) | 5★ between 35% and 45% |
+| Rows per theme | 45 to 70 | 45 to 70 |
+| P1 `AFR-0007` / P2 `SA-102417` / P5 injection | only rows 317 / 208 / 433 | exactly one row each |
+| P4 personal data | 10 rows with an email, 10 with a phone, 4 with both | at least 8 / 8 / 3 |
+| P6 rambling ticket | 852 words | 600 to 900 |
+| P7 hidden theme | 22 rows | 18 to 25 |
+| LLM-written rows | 494; 13 to 207 words, median 44 | |
+
+Files, from [manifest.json](../../data/manifest.json) and the answer keys:
+
+| Item | Value | Spec |
+|---|---|---|
+| Returns policy | 11,665 words in 14 numbered sections | 8,000 to 12,000 words; at least 10 headings |
+| Manuals | 6, between 1,737 and 2,236 words each | 6 |
+| Invoices | 10, with 4 to 11 line items each; every subtotal and total adds up | 3 to 12 items |
+| Calls | 10, between 69.7 and 107.2 s and 0.29 and 0.45 MB each | 30 to 120 s; at most 2 MB |
+| Call issues | damaged 2, defective 2, returns 2, delivery delay 2, wrong item 1, customer service 1 | |
+| Call outcomes | refund 5, no resolution 3, escalated 2, replacement 0 | |
+| Photos | 0, deferred (`"pending": ["P11", "P12"]`) | 12 + 20 |
+| Size of `data/`, as shipped | 5.22 MB | under 50 MB |
+
+Checks and costs:
+- **Rebuild:** 36 of 36 files byte-identical across two rebuilds after the timestamp fix (§4).
+- **`make test`:** 11 passed. **`make lint`:** all checks passed, 18 files formatted.
+- **DeepSeek spend for the whole dataset:** not recorded. The break test cost at most $0.0074 for 2 calls.
+
+Break test, from [results/rerun_diff.md](results/rerun_diff.md): the same 5 briefs, sent twice at temperature 1.0.
+
+| Row | Words, run 1 | Words, run 2 | Word overlap | Identical? |
+|---|---|---|---|---|
+| 3 | 89 | 87 | 39% | no |
+| 9 | 143 | 139 | 13% | no |
+| 13 | 20 | 19 | 31% | no |
+| 24 | 111 | 128 | 21% | no |
+| 29 | 46 | 62 | 17% | no |
+
+"Word overlap" is the share of words the two texts have in common, in the same order (Python's `difflib`).
+
+**Predicted vs. actual**
+- **Predicted** (2026-10-11, before running): tow runs could be different in output with each still following the same brief
+- **Actual:** All 5 texts differed, with only 13–39% word overlap, while their lengths stayed close (the biggest gap was 46 against 62 words). Both runs followed each brief: the tone matched the rating, the style held (row 9 was Hinglish both times), and the facts were the same (row 3: delivered in 2 days, a change-of-mind return rejected). Some differences went beyond wording: in row 24, run 2 added a dented lid and glass pieces that weren't in the brief, and in row 13, run 2 added a missing cable.
+- **Why:**
+  - At temperature 1.0 the model samples each next word from a probability distribution instead of always taking the likeliest one, so two runs part ways within the first few words.
+  - A seed can't help. Seed 42 controls Python's `random` on this laptop, but the sampling happens on DeepSeek's servers. Even at temperature 0, a hosted API doesn't promise identical output.
+  - The brief pins down *what* is said (facts, rating, style, length) but not *how*, so the content held and the wording didn't. The invented details show that an LLM fills gaps on its own, which is why `review_labels.csv` records what was asked for, not proven truth.
+  - For Lab 3: anyone who regenerated the text would get a different dataset, and their scores wouldn't be comparable with yours. That's why the text is generated once, committed and replayed from the cache, and why the manifest records the model and the date.
+
+**Gotchas**
+- **Free image search is literal:** "blender" finds the 3D software, so the queries say "kitchen blender" ([images.py](../../scripts/datagen/images.py#L45)). Even so, mixer grinders and air fryers found nothing usable → photos deferred (§5).
+- **The ₹ sign printed as a blank box:** Arial Unicode is older than the sign (U+20B9) → the PDFs use Georgia ([docs.py](../../scripts/datagen/docs.py#L32)).
+- **DeepSeek's reasoning was about 7/8 of the output tokens billed** in the pilot → thinking turned off.
+- **Briefs got ignored in batches of 20** → retry rounds with smaller batches, down to one brief per request.
+- **3 call scripts were rejected** (wrong length or wrong order number) → the retry loop regenerated them automatically.
+- **No call ended in a "replacement":** none of the randomly sampled orders fit that outcome. The spec lists it as possible, not required.
+- **Rebuilds weren't byte-identical:** PDF and `.m4a` files store their creation time → pinned to the snapshot date (§4).
+- **`make data` would have failed** on the empty photo selection → the `DEFERRED` switch (§5).
+- **The Claude API can't create images**, only read them → an image-generation route would need another provider.
+
+**Remember**
+- Code decides everything that must be exact (counts, distributions, IDs, planted strings, arithmetic). The LLM only writes the words.
+- Check every LLM reply against the spec before storing it, and retry failures in smaller batches.
+- Seeds make code repeatable, not LLMs. Record every accepted reply, key it by a hash of its prompt, commit it, and replay it.
+- Same content isn't the same bytes: file formats hide timestamps. Pin them, then prove reproducibility by fingerprinting two rebuilds.
+- A deferred requirement belongs in the contract (the spec, a deliberate switch, the manifest, expected-failure tests), not in someone's memory.
+- Answer keys record what the generator asked for, and LLMs add details nobody asked for.
+
+**Commands**
+```bash
+make data                                                          # rebuild data/ from cache: no API calls, $0
+uv run --group datagen python -m scripts.datagen.reviews --pilot   # 10 rows, one per theme, before a full run
+uv run --group datagen python -m scripts.datagen.images fetch      # Lab 1.4: download photo candidates again
+
+# Prove a rebuild is byte-identical: fingerprint, rebuild, fingerprint, compare
+find data -type f -not -path "data/.cache/image_candidates/*" | sort | xargs shasum -a 256 > before.sha256
+make data
+find data -type f -not -path "data/.cache/image_candidates/*" | sort | xargs shasum -a 256 > after.sha256
+diff before.sha256 after.sha256 && echo identical
+
+PYTHONPATH=. uv run --group datagen python labs/lab-00-foundation/experiments/rerun_diff.py   # the break test: 2 paid calls
+```
+
+**Still unclear**
+- **The checkpoint question isn't answered yet:** LLM-written reviews are cleaner than real ones. How might that flatter every model tested on this data, and what would make it messier? The generator already varies the style (typos, Hinglish, all-lowercase), but whether that's enough wasn't measured.
+- **How often does the LLM invent details?** Row 24's dented lid wasn't in the brief. Not measured across the 494 rows; the Lab 3.1 golden set may show it.
+- **The total DeepSeek spend for the dataset wasn't recorded**; only the break test's cost is known. The manifest could record it next time.
+- **`make data` only runs on a Mac.** The audio needs `say` and `afconvert`, and the PDFs read the Georgia font from a macOS path, so a Linux CI runner (Lab 3.P) can't rebuild the data. Whether a newer macOS, with updated voices, gives different audio bytes hasn't been tested.
+- **The tables are identical only while the Faker version in `uv.lock` stays the same.** An upgrade could change every customer's name without changing any count, so 0.P's range checks wouldn't notice.
+- **The photo route for Lab 1.4 is still open** (finishing the photos is now the first task of Lab 1.4 in [the backlog](../../linear_backlog_labs.md)): an image-generation API, phone photos, or real photos only with a smaller spec. The 109 downloaded candidates are git-ignored, so they exist only on this laptop (`images fetch` gets them again).

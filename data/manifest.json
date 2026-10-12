@@ -1,0 +1,26 @@
+{
+ "seed": 42,
+ "llm_provider": "DeepSeek",
+ "llm_model": "deepseek-v4-pro",
+ "llm_text_generated": "2026-10-11",
+ "snapshot_date": "2026-10-10",
+ "rows": {
+  "customers": 500,
+  "orders": 3000,
+  "products": 60,
+  "refunds": 178,
+  "returns": 226,
+  "reviews": 500
+ },
+ "files": {
+  "docs": 17,
+  "product_images": 0,
+  "damaged_images": 0,
+  "audio": 10
+ },
+ "pending": [
+  "P11",
+  "P12"
+ ],
+ "total_mb": 5.22
+}

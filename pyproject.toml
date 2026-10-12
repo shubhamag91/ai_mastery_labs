@@ -20,6 +20,12 @@ requires = ["uv_build>=0.13.0,<0.14.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
+datagen = [
+    "faker>=40.43.0",
+    "fpdf2>=2.8.9",
+    "openai>=3.28.0",
+    "pillow>=12.3.0",
+]
 dev = [
     "pre-commit>=4.6.2",
     "pytest>=9.1.1",

@@ -17,14 +17,15 @@ Nothing in the dataset is real: no real people, email addresses, brands or compa
 | Random seed | `42`, for Python's `random`, Faker and anything else random | The same seed gives the same structured data on every run |
 | Faker locale | `en_IN` | Indian names and cities |
 | Trading period | Orders dated `2025-04-01` to `2026-09-30` | 18 months: enough for month-by-month questions in Lab 7 |
+| Snapshot date | No date anywhere is later than `2026-10-10` | Deliveries, returns and refunds can come after the last order, but the data is a snapshot taken on that day, so nothing can be dated in the future |
 | Dates | Text in ISO format, `YYYY-MM-DD` | SQLite has no date type; ISO dates sort correctly as text |
 | Money | Whole rupees, stored as `INTEGER`, columns named `*_inr` | Never floats for money: `0.1 + 0.2 != 0.3` in floating point |
 | Email domains | Only `example.com`, `example.net` or `example.org` | These domains are reserved and can never belong to a real person |
 | Phone numbers | `+91` followed by 10 digits starting with 6–9, written `+91 98765 43210` | The real Indian mobile format, so PII detection in Lab 9.2 recognises them. They are random and may match real numbers, so they are never dialled or messaged |
-| LLM-written text | Reviews, tickets, PDFs and call scripts are written by Claude | Realistic language at low cost. LLM output is not reproducible from a seed, which is why the generated data is committed |
+| LLM-written text | Reviews, tickets, PDF text and call scripts are written by an LLM: DeepSeek `deepseek-v4-pro` for this copy | Realistic language at low cost. A different model family from Claude, so the labs don't test Claude on text Claude wrote. LLM output is not reproducible from a seed, which is why the generated data is committed |
 | Planted cases | Inserted by code with exact strings, never left to the LLM | An LLM asked to "include an injection" might paraphrase it, and the test in 0.P would fail |
 | Size budget | All of `data/` under 50 MB | Small enough to commit to git |
-| Manifest | `data/manifest.json` records the seed, the Claude model ID, the generation date and every table's row count | Records how this copy of the data was made |
+| Manifest | `data/manifest.json` records the seed, the LLM provider and model ID, the generation date, every table's row count, and under `pending` any planted case knowingly not yet built | Records how this copy of the data was made, including what it is missing |
 
 ## 3. Tables (`data/shop.db`, SQLite)
 
@@ -139,7 +140,9 @@ All PDFs are rendered from text, so they have a text layer you can select and co
 
 ### `data/images/`
 
-All images are JPEG, at most 800 px on the longest side and at most 200 KB each. Each is either CC0-licensed or generated, and `images/sources.csv` records `file`, `source` (a URL, or `generated`) and `licence` for every one.
+> **Status: deferred to Lab 1.4.** No free image library had usable photos for most categories (air fryers and mixer grinders had none at all), and the alternatives (an image-generation API or photos taken for this project) were postponed until the photos are first needed. Until then, `images/` does not exist, every `returns.photo_file` is NULL, `damage_labels.csv` is absent, and `manifest.json` lists P11 and P12 under `pending`. The rules below still apply once the photos are added.
+
+All images are JPEG, at most 800 px on the longest side and at most 200 KB each. Each is CC0, public domain, or CC BY (which requires crediting the author), or a photo taken for this project. `images/sources.csv` records `file`, `source` (a URL, or `own photo`), `author` and `licence` for every one, which is also how CC BY's credit requirement is met.
 
 | Folder | Count | Content | Answer key |
 |---|---|---|---|
@@ -163,7 +166,7 @@ Each damaged-return photo is linked from exactly one `returns.photo_file`, and t
 | `damage_labels.csv` | See `images/` above |
 | `calls.json` | See `audio/` above |
 
-`review_labels.csv` records what the generator **asked for**, not proven truth: Claude doesn't always write exactly what it was asked to. The hand-labelled golden dataset from Lab 3.1 is the real ground truth.
+`review_labels.csv` records what the generator **asked for**, not proven truth: an LLM doesn't always write exactly what it was asked to. The hand-labelled golden dataset from Lab 3.1 is the real ground truth.
 
 ## 5. Planted cases
 
@@ -181,8 +184,8 @@ Each case is placed by code with the exact values below, and recorded in `answer
 | P8 | A long returns policy | `docs/returns_policy.pdf` (section 4) | 4.3, 5.1–5.3 | Opens; 8,000–12,000 words; at least 10 numbered headings; mentions "10 days" |
 | P9 | Product manuals | `docs/manual_<category>.pdf` × 6 (section 4) | 4.3, 5 | All 6 open; each has the six headings in order |
 | P10 | Supplier invoices with an answer key | `docs/invoice_01.pdf` to `invoice_10.pdf` (section 4) | 2.4 | All open; each PDF's text contains its invoice number; the answer key's sums add up |
-| P11 | Product photos | `images/products/` × 12 (section 4) | 1.4 | All open; within size limits |
-| P12 | Damaged-return photos, two with no damage | `images/damaged/` × 20 (section 4) | 1.4, 2.4 | All open; each linked from one return; exactly 2 labelled `none` |
+| P11 | Product photos (**deferred to Lab 1.4**) | `images/products/` × 12 (section 4) | 1.4 | All open; within size limits. Expected to fail while `manifest.json` lists P11 as `pending` |
+| P12 | Damaged-return photos, two with no damage (**deferred to Lab 1.4**) | `images/damaged/` × 20 (section 4) | 1.4, 2.4 | All open; each linked from one return; exactly 2 labelled `none`. Expected to fail while `manifest.json` lists P12 as `pending` |
 | P13 | Support calls with transcripts | `audio/call_01.m4a` to `call_10.m4a` (section 4) | 2.4 | All exist; 30–120 s; each `order_number` exists in `orders` |
 | P14 | Refunds the agent can legitimately issue | At least 10 `approved` returns with no row in `refunds` | 7.4 | Count ≥ 10 |
 
