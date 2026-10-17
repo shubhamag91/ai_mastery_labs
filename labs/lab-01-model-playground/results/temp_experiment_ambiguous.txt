@@ -1,0 +1,12 @@
+ambiguous (damaged/returns/service) @ temperature=0.0
+  distinct outputs: 1
+  most common:      'damaged_on_arrival' (20/20)
+  agreement rate:   100%
+  all counts:       {'damaged_on_arrival': 20}
+
+ambiguous (damaged/returns/service) @ temperature=1.0
+  distinct outputs: 1
+  most common:      'damaged_on_arrival' (20/20)
+  agreement rate:   100%
+  all counts:       {'damaged_on_arrival': 20}
+

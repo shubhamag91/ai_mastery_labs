@@ -1,0 +1,12 @@
+explicit tie @ temperature=0.0
+  distinct outputs: 1
+  most common:      'product_defect' (30/30)
+  agreement rate:   100%
+  all counts:       {'product_defect': 30}
+
+explicit tie @ temperature=1.0
+  distinct outputs: 2
+  most common:      'product_defect' (21/30)
+  agreement rate:   70%
+  all counts:       {'product_defect': 21, 'delivery_delay': 9}
+

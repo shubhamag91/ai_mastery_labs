@@ -1,0 +1,12 @@
+parallel delivery/defect @ temperature=0.0
+  distinct outputs: 1
+  most common:      'product_defect' (20/20)
+  agreement rate:   100%
+  all counts:       {'product_defect': 20}
+
+parallel delivery/defect @ temperature=1.0
+  distinct outputs: 1
+  most common:      'product_defect' (20/20)
+  agreement rate:   100%
+  all counts:       {'product_defect': 20}
+

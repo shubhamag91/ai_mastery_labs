@@ -1,0 +1,12 @@
+clear-cut (delivery_delay) @ temperature=0.0
+  distinct outputs: 1
+  most common:      'delivery_delay' (20/20)
+  agreement rate:   100%
+  all counts:       {'delivery_delay': 20}
+
+clear-cut (delivery_delay) @ temperature=1.0
+  distinct outputs: 1
+  most common:      'delivery_delay' (20/20)
+  agreement rate:   100%
+  all counts:       {'delivery_delay': 20}
+

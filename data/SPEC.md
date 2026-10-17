@@ -140,14 +140,14 @@ All PDFs are rendered from text, so they have a text layer you can select and co
 
 ### `data/images/`
 
-> **Status: deferred to Lab 1.4.** No free image library had usable photos for most categories (air fryers and mixer grinders had none at all), and the alternatives (an image-generation API or photos taken for this project) were postponed until the photos are first needed. Until then, `images/` does not exist, every `returns.photo_file` is NULL, `damage_labels.csv` is absent, and `manifest.json` lists P11 and P12 under `pending`. The rules below still apply once the photos are added.
+> **Status: finished in Lab 1.4**, via Openverse free-image search, with three documented gaps the free-image route couldn't fill. `mixer_grinder` has **0** product and **0** damaged photos — two rounds of search (the default queries, then broadened terms like "wet grinder kitchen appliance") returned only off-topic results (a commercial batter-mixing setup, a hand injury, a rusty metal disc) for this India-specific appliance type. `air_fryer` has **0** product and **0** damaged photos — the default query collided with US Air National Guard photos, and the one on-topic-looking result was a misinformation meme image, rejected on principle. `toaster` has **1** product photo instead of 2 — only one of its six candidates was a clean, on-topic shot. All three gaps are enforced in `scripts/datagen/images.py`'s `build()` via `EXPECTED_PRODUCT_COUNT`, not silently dropped. Revisit with a different photo route (real/phone photos, or an image-generation API) if these categories are needed for a later lab.
 
 All images are JPEG, at most 800 px on the longest side and at most 200 KB each. Each is CC0, public domain, or CC BY (which requires crediting the author), or a photo taken for this project. `images/sources.csv` records `file`, `source` (a URL, or `own photo`), `author` and `licence` for every one, which is also how CC BY's credit requirement is met.
 
 | Folder | Count | Content | Answer key |
 |---|---|---|---|
-| `images/products/` | 12, two per category, named `<sku>.jpg` | One product on a plain background; the SKU belongs to a product in that category | None |
-| `images/damaged/` | 20, named `return_<return_id>.jpg` | A customer's photo of a returned item of the right category. **Two show no visible damage** | `answer_keys/damage_labels.csv`: `file`, `return_id`, `category`, `damage_type` (`cracked`, `dented`, `scratched`, `broken_part` or `none`), `severity` (`none`, `minor`, `moderate` or `severe`) |
+| `images/products/` | **7** (two per category except `mixer_grinder` and `air_fryer`, 0, and `toaster`, 1 — see the status note above), named `<sku>.jpg` | One product on a plain background; the SKU belongs to a product in that category | None |
+| `images/damaged/` | 20, named `return_<return_id>.jpg` | A customer's photo of a returned item of the right category. **Two show no visible damage**. None are `mixer_grinder` or `air_fryer` (no usable candidates found) | `answer_keys/damage_labels.csv`: `file`, `return_id`, `category`, `damage_type` (`cracked`, `dented`, `scratched`, `broken_part` or `none`), `severity` (`none`, `minor`, `moderate` or `severe`) |
 
 Each damaged-return photo is linked from exactly one `returns.photo_file`, and that return's `reason` is `damaged_in_transit` or `defective`.
 
@@ -184,8 +184,8 @@ Each case is placed by code with the exact values below, and recorded in `answer
 | P8 | A long returns policy | `docs/returns_policy.pdf` (section 4) | 4.3, 5.1–5.3 | Opens; 8,000–12,000 words; at least 10 numbered headings; mentions "10 days" |
 | P9 | Product manuals | `docs/manual_<category>.pdf` × 6 (section 4) | 4.3, 5 | All 6 open; each has the six headings in order |
 | P10 | Supplier invoices with an answer key | `docs/invoice_01.pdf` to `invoice_10.pdf` (section 4) | 2.4 | All open; each PDF's text contains its invoice number; the answer key's sums add up |
-| P11 | Product photos (**deferred to Lab 1.4**) | `images/products/` × 12 (section 4) | 1.4 | All open; within size limits. Expected to fail while `manifest.json` lists P11 as `pending` |
-| P12 | Damaged-return photos, two with no damage (**deferred to Lab 1.4**) | `images/damaged/` × 20 (section 4) | 1.4, 2.4 | All open; each linked from one return; exactly 2 labelled `none`. Expected to fail while `manifest.json` lists P12 as `pending` |
+| P11 | Product photos, 7 of the planned 12 (**mixer_grinder and air_fryer have 0, toaster has 1** — section 4 status note) | `images/products/` × 7 (section 4) | 1.4 | All open; within size limits |
+| P12 | Damaged-return photos, two with no damage (**no mixer_grinder or air_fryer photos** — section 4 status note) | `images/damaged/` × 20 (section 4) | 1.4, 2.4 | All open; each linked from one return; exactly 2 labelled `none` |
 | P13 | Support calls with transcripts | `audio/call_01.m4a` to `call_10.m4a` (section 4) | 2.4 | All exist; 30–120 s; each `order_number` exists in `orders` |
 | P14 | Refunds the agent can legitimately issue | At least 10 `approved` returns with no row in `refunds` | 7.4 | Count ≥ 10 |
 

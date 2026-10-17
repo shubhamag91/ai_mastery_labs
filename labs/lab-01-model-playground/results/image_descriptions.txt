@@ -1,0 +1,27 @@
+--- PRODUCT PHOTO ---
+**Vintage Art Deco Electric Kettle** – This polished chrome-plated kettle has a domed body, an elegantly curved spout, and a dark arched handle with decorative floral-shaped mounts. A matching finial tops the lid, and the kettle sits on a rounded base with small ball feet. The side-mounted electrical connector shows it is an early electric model. A striking collector's piece that pairs early 20th-century design with everyday function.
+Usage(cache_creation=CacheCreation(ephemeral_1h_input_tokens=0, ephemeral_5m_input_tokens=0), cache_creation_input_tokens=0, cache_read_input_tokens=0, inference_geo='global', input_tokens=673, output_tokens=148, output_tokens_details=OutputTokensDetails(thinking_tokens=0), server_tool_use=None, service_tier='standard', speed='standard')
+
+--- DAMAGED PHOTO ---
+The most obvious damage is on the
+Usage(cache_creation=CacheCreation(ephemeral_1h_input_tokens=0, ephemeral_5m_input_tokens=0), cache_creation_input_tokens=0, cache_read_input_tokens=0, inference_geo='global', input_tokens=665, output_tokens=300, output_tokens_details=OutputTokensDetails(thinking_tokens=290), server_tool_use=None, service_tier='standard', speed='standard')
+The main damage is to the **handle grip**.
+
+**Handle grip (most noticeable)**
+- The wooden or birch-bark grip is peeling and splintering. Strips of bark are curling away, especially in the middle.
+- There are dark brown and black patches that look scorched or charred. This is probably heat damage from sitting on or near a hot stove.
+- The ends are wrapped with twine or fiber, which looks frayed and worn. It may be a homemade or repair job rather than the original handle.
+- The grip looks dry and brittle, so it could crack or break off, and it's a fire and burn risk near the heat.
+
+**Metal handle bands**
+- The two metal straps holding the grip look slightly uneven and bent. The attachment points, especially on the right, look stressed and could loosen.
+
+**Kettle body**
+- The aluminum is scratched and scuffed all over, and it has lost its shine. It has a dull, oxidized look, with some darker discoloration near the bottom.
+- This is mostly cosmetic and typical of an older kettle used on a wood stove.
+
+**Lid**
+- The lid and black knob look intact, though the lid seems to sit a little loosely in the rim.
+
+**Bottom line:** The kettle itself seems functional but worn. The burnt, peeling handle is the real problem. It should be replaced with a heat-safe handle before the kettle is used again, since a failing handle on a kettle full of boiling water could cause serious scalds.
+Usage(cache_creation=CacheCreation(ephemeral_1h_input_tokens=0, ephemeral_5m_input_tokens=0), cache_creation_input_tokens=0, cache_read_input_tokens=0, inference_geo='global', input_tokens=665, output_tokens=797, output_tokens_details=OutputTokensDetails(thinking_tokens=323), server_tool_use=None, service_tier='standard', speed='standard')

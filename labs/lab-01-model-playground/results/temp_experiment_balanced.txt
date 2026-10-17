@@ -1,0 +1,12 @@
+deliberately balanced @ temperature=0.0
+  distinct outputs: 1
+  most common:      'value_for_money' (20/20)
+  agreement rate:   100%
+  all counts:       {'value_for_money': 20}
+
+deliberately balanced @ temperature=1.0
+  distinct outputs: 1
+  most common:      'value_for_money' (20/20)
+  agreement rate:   100%
+  all counts:       {'value_for_money': 20}
+
