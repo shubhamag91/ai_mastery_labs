@@ -2,7 +2,7 @@
 
 > **In my own words:** Lab 1 is about understanding basic terminologies and concepts in LLM and how to modify and understand those parameters. These are the foundations of any LLM call.
 
-**Concepts:** #1 Tokens, #2 Context window, #3 System vs. user prompt, #4 Temperature & sampling, #5 Non-determinism, #6 Hallucination, #7 Model selection, #8 Extended thinking, #53 Multimodal input · **Detail:** [NOTES.md](NOTES.md) · **Code:** [`experiments/`](experiments/)
+**Concepts:** #1 Tokens, #2 Context window, #3 System vs. user prompt, #4 Temperature & sampling, #5 Non-determinism, #6 Hallucination, #7 Model selection, #8 Extended thinking, #53 Multimodal input, #56 Structured logging, #57 Testing LLM code · **Detail:** [NOTES.md](NOTES.md) · **Code:** [`experiments/`](experiments/), [`src/shopai/llm.py`](../../src/shopai/llm.py)
 
 ## Key ideas
 - **#1 Tokens:** a token is not a word — the tokenizer (byte-pair encoding, trained mostly on English) merges common English fragments into single tokens, but rarely-seen text (romanized Hindi, punctuation stuck to a word) falls back to small fragments, costing far more per word. [1.1](NOTES.md#11-build-a-token-and-context-window-inspector)
@@ -17,6 +17,8 @@
 - **#8 Extended thinking:** on current models, thinking has no real "off" state — every run showed nonzero thinking tokens even when `thinking` was never set. Raising `effort` from default to `high` cost more (+4%) with no measurable quality gain on a reading-comprehension task; effort pays off on tasks needing genuine multi-step reasoning, not extraction. [1.3](NOTES.md#13-compare-models-prompts-and-thinking-modes-on-one-task)
 - **#8 Extended thinking:** a small `max_tokens` doesn't make answers more concise — it can truncate mid-reasoning and produce a broken, partial answer instead of a complete one, because thinking tokens compete with visible-answer tokens for the same budget. Seen three times independently ([1.1](NOTES.md#11-build-a-token-and-context-window-inspector), [1.3](NOTES.md#13-compare-models-prompts-and-thinking-modes-on-one-task), [1.4](NOTES.md#14-manage-conversation-state-and-send-an-image)).
 - **#53 Multimodal input:** an image costs meaningfully more than comparable text — one product photo (673 tokens) costs more than 4× a full customer review (150 tokens). Images also get downscaled server-side before tokenizing: a 57×-larger image (by pixel count) cost only 7× more tokens, not a linear scale-up. [1.4](NOTES.md#14-manage-conversation-state-and-send-an-image)
+- **#57 Testing LLM code:** dependency injection — taking the SDK client as a function parameter instead of constructing it inside — is the entire mechanism that makes LLM code unit-testable without mocking frameworks, network access, or spending money. Proved directly: the full test suite (75 tests) passes in under a second with `ANTHROPIC_API_KEY` unset and `ANTHROPIC_BASE_URL` pointed at a closed port. [1.P](NOTES.md#1p-build-the-shared-llm-client)
+- **#56 Structured logging:** one shared `call()` function means every model call across every script now logs one JSON line (`model`, `input_tokens`, `output_tokens`, `thinking_tokens`, `cost_usd`, `latency_s`) instead of each script measuring and printing these fields its own way, or not at all. [1.P](NOTES.md#1p-build-the-shared-llm-client)
 
 ## Numbers to remember
 | Measurement | Value | Source |
@@ -33,6 +35,8 @@
 | Input tokens, one customer review (~57 words) | 150 | [results/sample_review.txt](results/sample_review.txt) |
 | Input tokens, one product photo (800×589px) | 673 | [results/image_descriptions.txt](results/image_descriptions.txt) |
 | Input tokens, same photo upscaled to 6000×4500px (57× the pixels) | 4,757 (7× the tokens, not 57×) | [NOTES.md §1.4](NOTES.md#14-manage-conversation-state-and-send-an-image) |
+| Full test suite, no API key, unreachable `ANTHROPIC_BASE_URL` | 75/75 passed, 0.71s | [NOTES.md §1.P](NOTES.md#1p-build-the-shared-llm-client) |
+| Test suite size before vs. after `tests/test_llm.py` | 68 → 75 | [NOTES.md §1.P](NOTES.md#1p-build-the-shared-llm-client) |
 
 ## Rules of thumb
 - Use `count_tokens` before any production rollout to estimate cost on real sample text — don't guess from word count, especially for non-English or code-mixed content.
@@ -40,6 +44,7 @@
 - Don't force a model to answer in a single token/no-reasoning-shown mode on a task it needs to "think through" (letter counting, careful extraction) — it will either silently use a famous-example shortcut (memorization) or visibly fail mid-recovery if you remove its room to reason.
 - Budget `max_tokens` generously on any thinking-enabled model, especially for vision calls — a too-small ceiling truncates mid-reasoning, not mid-sentence of a complete answer.
 - When evaluating model choice, measure on the task's actual hard cases (planted ambiguity, contradictions), not generic examples — cheap and expensive models can look identical on easy inputs.
+- Put every model call behind one shared function that takes the client as a parameter. It's what makes unit tests free and instant, and it's what makes a pricing or logging change a one-line edit instead of a hunt across every script.
 
 ## Real-world uses
 - **Customer support triage (e-commerce/retail):** classify incoming tickets by theme/urgency at `temperature=0` for reproducibility, reserving the capable model for tickets that are long, contradictory, or otherwise hard to summarize reliably — exactly what [1.3](NOTES.md#13-compare-models-prompts-and-thinking-modes-on-one-task) measured.
@@ -65,3 +70,6 @@ Default to the cheapest model at `temperature=0` for anything structured/classif
 
 5. What happens to an oversized image's token count, and why?
    <details><summary>Answer</summary>It doesn't scale linearly with pixel count. A 57×-larger image (by pixel count) cost only 7× more tokens (4,757 vs. 673). The API downscales an oversized image server-side before tokenizing it, capping the cost — which also means sending an unnecessarily huge file doesn't buy the model proportionally more visual detail. See <a href="NOTES.md#14-manage-conversation-state-and-send-an-image">NOTES.md §1.4</a>.</details>
+
+6. Why wrap an SDK at all? What would you lose by wrapping too much of it?
+   <details><summary>Answer</summary>Wrapping centralizes logging, cost tracking, and testability in one place instead of four slightly different copies — a pricing or logging change becomes a one-line edit instead of a hunt across every script. Wrapping too much (trying to re-expose every SDK feature before anything needs it) adds a translation layer with no payoff: every new SDK capability would need a matching wrapper feature before it could be used, and bugs can hide in either layer. The actual wrapper here only covers the parameters Lab 1's scripts used, plus one escape hatch (<code>extra_body</code> passthrough) for raw fields the typed SDK doesn't expose. Proven directly: the full test suite (75 tests) passes with no API key and no reachable network, in 0.71 seconds — because the client is injectable, not hardcoded inside the wrapper. See <a href="NOTES.md#1p-build-the-shared-llm-client">NOTES.md §1.P</a>.</details>

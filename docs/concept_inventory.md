@@ -161,8 +161,8 @@ The same principle applies to the code: every lab extends one package (`src/shop
 |---|---|---|---|---|
 | 54 | **Project structure & dependencies** | One package, a lockfile, and a repeatable environment, so the code runs the same everywhere. | 0 | [~] [notes](../labs/lab-00-foundation/NOTES.md) |
 | 55 | **Configuration & secrets** | Settings come from the environment; secrets never enter git, logs or images. | 0, 6 | [~] [notes](../labs/lab-00-foundation/NOTES.md) |
-| 56 | **Structured logging** | Logs as data (one JSON line per event) that you can search and count, not prose. | 0, 1 | [~] [notes](../labs/lab-00-foundation/NOTES.md) |
-| 57 | **Testing LLM code** | Fake clients for unit tests, real calls only in evals — so tests are free, fast and stable. | 1, 3 | [ ] |
+| 56 | **Structured logging** | Logs as data (one JSON line per event) that you can search and count, not prose. | 0, 1 | [x] [notes](../labs/lab-00-foundation/NOTES.md), [lab 1 notes](../labs/lab-01-model-playground/NOTES.md) |
+| 57 | **Testing LLM code** | Fake clients for unit tests, real calls only in evals — so tests are free, fast and stable. | 1, 3 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
 | 58 | **Data contracts** | Tests that assert what the data must contain, so a silent data change fails loudly. | 0 | [~] [notes](../labs/lab-00-foundation/NOTES.md) |
 | 59 | **Retries, idempotency & resumable jobs** | Re-running a job never loses, duplicates or double-pays for work. | 2, 7 | [ ] |
 | 60 | **Continuous integration** | Every push is linted and tested automatically; regressions can't merge unnoticed. | 3 | [ ] |

@@ -232,3 +232,57 @@ uv run python labs/lab-01-model-playground/experiments/cli_chat.py
 # scripted 10-turn conversation with token-growth logging
 uv run python labs/lab-01-model-playground/experiments/token_growth.py
 ```
+
+## 1.P Build the Shared LLM Client
+
+**Question this answered:** How do you put every model call behind one module — with logging, cost tracking, and testability — without that module becoming an unmaintainable do-everything wrapper?
+
+**What I built**
+- [`src/shopai/llm.py`](../../src/shopai/llm.py) — the shared client. Two public functions: [`call()`](../../src/shopai/llm.py#L46) (wraps `messages.create`, returns a typed `LlmResult`: text, model, input/output/thinking tokens, cost, latency) and [`count_tokens()`](../../src/shopai/llm.py#L73) (wraps `messages.count_tokens`, needed because [1.1](#11-build-a-token-and-context-window-inspector)'s script never calls `messages.create` at all). A shared `PRICING` table (one entry per model, in dollars/token) replaces the per-script cost formulas from 1.1 and 1.3. The underlying SDK client is **injectable** — both functions take an optional `client` parameter and only construct a real `anthropic.Anthropic()` when none is given.
+- [`tests/fakes.py`](../../tests/fakes.py) — `FakeMessagesClient`, a hand-written stand-in implementing just `.create()` and `.count_tokens()`, returning a fixed, scripted response and recording every call it received so tests can assert on what was sent. No mocking library — the project doesn't use one, and the real interface is small enough that a plain class is clearer.
+- [`tests/test_llm.py`](../../tests/test_llm.py) — 7 unit tests against the fake client: result fields, cost computation, missing-thinking-details defaulting to 0, kwargs passthrough, structured log output, and that `count_tokens` needs no key either.
+- Refactored all 4 Lab 1 scripts ([`token_inspector.py`](experiments/token_inspector.py), [`temperature_experiment.py`](experiments/temperature_experiment.py), [`comparison_harness.py`](experiments/comparison_harness.py), [`cli_chat.py`](experiments/cli_chat.py) and [`token_growth.py`](experiments/token_growth.py)) to call through `shopai.llm` instead of each building its own `anthropic.Anthropic()` client and cost formula. Each one now also calls `configure_logging()` at startup, so `llm_call` lines come out as real JSON per the project's logging convention, not structlog's default pretty-printer.
+
+**How it works**
+- **Dependency injection is the whole trick.** `call(messages, ..., client=None)` only builds a real `anthropic.Anthropic()` client when `client` is `None`. Pass a fake instead, and the function never touches the network, never needs `ANTHROPIC_API_KEY`, and runs in milliseconds. This is the entire mechanism behind testing LLM code without spending money or needing connectivity — no mocking framework, no patching, just "take the dependency as a parameter instead of hardcoding it inside."
+- **Why wrap an SDK at all (the checkpoint question):** before this lab, 4 scripts each built their own client, their own cost formula, and logged nothing. A pricing change or a logging requirement meant editing 4 places and hoping none were missed. One function now owns that — every later lab gets logging and cost tracking for free, automatically, just by calling `shopai.llm.call()`.
+- **What you'd lose by wrapping too much:** the wrapper only exposes the parameters Lab 1's scripts actually used (`system`, `thinking`, `output_config`, `extra_body`, `max_tokens`) — it doesn't try to re-expose every SDK feature (streaming, tool use, batches) before anything needs them. A wrapper that mirrors the entire SDK surface adds a translation layer with no payoff: every new SDK feature would need a matching wrapper feature before it could be used at all, and bugs could hide in either layer. `extra_body` stayed as a pass-through escape hatch for exactly this reason — the Haiku-4.5 `temperature` workaround from [1.2](#12-run-a-temperature-and-non-determinism-experiment) didn't need a dedicated wrapper parameter, just a place to put raw fields the typed SDK doesn't expose.
+- **Structured logging, now actually wired up:** every `call()` logs one `llm_call` event via `shopai.log` (built in Lab 0) with `model`, `input_tokens`, `output_tokens`, `thinking_tokens`, `cost_usd`, `latency_s` — fields chosen directly from what the Lab 1 tasks needed to measure by hand before this lab existed.
+
+**Results**
+All 4 refactored scripts were smoke-tested against the real API and matched prior behavior:
+- `token_inspector.py` on the same sample review: 150 tokens, 2.63 tokens/word, $0.000300 — identical to [1.1](#11-build-a-token-and-context-window-inspector)'s original numbers.
+- `temperature_experiment.py`: 3 trials at each temperature on a short review, 100% agreement both times, structured `llm_call` log lines visible per call.
+- `comparison_harness.py`: full 4-config run, costs within normal run-to-run variance of [1.3](#13-compare-models-prompts-and-thinking-modes-on-one-task)'s original numbers ($0.00038–$0.01777 here vs. $0.00037–$0.01925 originally).
+- Multi-turn history: a 2-turn ad hoc conversation through `call()` correctly recalled a name stated on turn 1, same mechanism as [1.4](#14-manage-conversation-state-and-send-an-image).
+
+Unit tests: 7/7 pass in `tests/test_llm.py`. Full suite: 75/75 pass (was 68 before this task's new `tests/test_llm.py`).
+
+**Predicted vs. actual**
+- **Predicted** (2026-10-17, before running): yes
+- **Actual:** Ran the full test suite (`uv run pytest`) with `ANTHROPIC_API_KEY` unset and `ANTHROPIC_BASE_URL` pointed at a closed local port (`http://127.0.0.1:1`, simulating disconnected Wi-Fi more reliably than an unreachable external host, which could hang instead of failing fast). Result: **75/75 passed in 0.71 seconds** — exact match to the prediction.
+- **Why:** Every test that exercises `shopai.llm` passes a `FakeMessagesClient` explicitly, so `call()`'s `if client is None` branch — the only place a real `anthropic.Anthropic()` would ever get constructed — never executes during the test suite. No API key is read, no network socket opens, nothing times out. The 0.71-second runtime is itself evidence: a suite making even one real network attempt against a closed port would have stalled or errored far more visibly. This is what "no network, no API key, no cost" unit tests for LLM code concretely looks like — not a promise in a comment, but a property the client-injection design makes structurally true.
+
+**Gotchas**
+- Lab 1.1's script never calls `messages.create` — only `count_tokens`. A wrapper meant to cover "every model call" has to cover both, or the refactor leaves one script still building its own client. Added a companion `count_tokens()` function to `llm.py` for exactly this reason.
+- Logging only becomes real JSON if `configure_logging()` is called first. An ad hoc script or REPL session that imports `shopai.llm` without calling it still gets *a* log line (structlog's default console renderer), which can look superficially fine but isn't the structured format the rest of the project depends on. Every refactored script's `main()` now calls `configure_logging(get_settings().log_level)` explicitly.
+- `output_tokens_details` can be `None` on the response (seen in earlier labs too) — `call()` guards this directly (`thinking_tokens = ... if usage.output_tokens_details else 0`) rather than assuming the field is always populated.
+
+**Remember**
+- Dependency injection — taking a collaborator as a parameter instead of constructing it inside — is what makes LLM code unit-testable without mocking frameworks, network access, or spending money. It's a small code shape change with a large testing payoff.
+- A good wrapper covers what callers actually need (here: the specific `system`/`thinking`/`output_config`/`extra_body` combinations 4 real scripts used) plus one escape hatch (`extra_body` passthrough) for things the typed SDK doesn't expose yet — not a mirror of the entire underlying SDK.
+- "No network, no API key, no cost" for unit tests isn't just a nice property — it's directly verifiable: unset the key, point the base URL at a dead address, and the suite should still pass in well under a second. If it doesn't, something in the "unit" tests is secretly real.
+- Centralizing the pricing table in one place (`shopai.llm.PRICING`) means a price change is a one-line edit instead of finding and fixing it in every script that computed cost separately.
+
+**In production this means**: every future lab's scripts call `shopai.llm.call()` instead of building their own client, so logging, cost tracking, and (eventually) retry/timeout behavior are consistent project-wide by construction, not by convention that's easy to forget. CI can run the full test suite with no secrets configured at all, since none of the unit tests need `ANTHROPIC_API_KEY` — only evals and real smoke-test scripts do.
+
+**Runbook**: to add a new model, add one line to `PRICING` in `llm.py` — nothing else needs to change. To verify the test suite is genuinely network-free before trusting it in CI: `env -u ANTHROPIC_API_KEY ANTHROPIC_BASE_URL=http://127.0.0.1:1 uv run pytest` and confirm it still passes in under a second.
+
+**Commands**
+```bash
+# run just the new llm.py unit tests
+uv run pytest tests/test_llm.py -v
+
+# the Destructive Testing check: no key, no reachable network
+env -u ANTHROPIC_API_KEY ANTHROPIC_BASE_URL=http://127.0.0.1:1 uv run pytest
+```
