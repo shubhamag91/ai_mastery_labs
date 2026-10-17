@@ -3,27 +3,17 @@
 import argparse
 from pathlib import Path
 
-import anthropic
-
-from shopai.config import get_settings
+from shopai.llm import PRICING
+from shopai.llm import count_tokens as llm_count_tokens
 
 MODEL = "claude-sonnet-5-5"
-INPUT_PRICE_PER_TOKEN = 2.00 / 1_000_000  # Sonnet 5.5 input price: $2.00 / 1M tokens
 
 
-def count_tokens(client: anthropic.Anthropic, text: str) -> int:
-    response = client.messages.count_tokens(
-        model=MODEL,
-        messages=[{"role": "user", "content": text}],
-    )
-    return response.input_tokens
-
-
-def find_outlier_word(client: anthropic.Anthropic, words: list[str]) -> tuple[str, int]:
+def find_outlier_word(words: list[str]) -> tuple[str, int]:
     """Find the unique word with the highest token count. One API call per unique word."""
     best_word, best_tokens = "", 0
     for word in dict.fromkeys(words):  # de-dupe, preserve order
-        tokens = count_tokens(client, word)
+        tokens = llm_count_tokens([{"role": "user", "content": word}], model=MODEL)
         if tokens > best_tokens:
             best_word, best_tokens = word, tokens
     return best_word, best_tokens
@@ -42,11 +32,9 @@ def main() -> None:
     text = args.path.read_text(encoding="utf-8")
     words = text.split()
 
-    settings = get_settings()
-    client = anthropic.Anthropic(api_key=settings.anthropic_api_key.get_secret_value())
-
-    tokens = count_tokens(client, text)
-    cost = tokens * INPUT_PRICE_PER_TOKEN
+    tokens = llm_count_tokens([{"role": "user", "content": text}], model=MODEL)
+    input_price_per_token, _ = PRICING[MODEL]
+    cost = tokens * input_price_per_token
     ratio = tokens / len(words) if words else 0.0
 
     print(f"File:            {args.path}")
@@ -55,11 +43,11 @@ def main() -> None:
     print(f"Tokens/word:     {ratio:.2f}")
     print(
         f"Est. input cost: ${cost:.6f} "
-        f"(Sonnet 5.5 input pricing, ${INPUT_PRICE_PER_TOKEN * 1_000_000:.2f}/1M tokens)"
+        f"(Sonnet 5.5 input pricing, ${input_price_per_token * 1_000_000:.2f}/1M tokens)"
     )
 
     if args.find_outlier:
-        word, word_tokens = find_outlier_word(client, words)
+        word, word_tokens = find_outlier_word(words)
         print(f"Highest-token word: {word!r} -> {word_tokens} tokens")
 
 
