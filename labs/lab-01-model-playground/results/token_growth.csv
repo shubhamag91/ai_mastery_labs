@@ -1,0 +1,11 @@
+turn,user_message,input_tokens,output_tokens
+1,My name is Priya and I bought a Homiva kettle last week.,29,244
+2,It arrived with a cracked lid. What's your return policy on that?,226,300
+3,Okay. How many days do I have to request a return?,312,300
+4,What's my name again?,452,176
+5,I also have a Kitchora air fryer. Does the same return window apply to it?,599,300
+6,Which of my two products arrived damaged?,834,156
+7,"If I return the kettle, will I get a refund or does it have to be a replacement?",953,300
+8,Summarize what we've discussed so far in two sentences.,1232,172
+9,One more thing - what was the first product I mentioned?,1371,40
+10,"Thanks, that's everything I needed.",1426,71

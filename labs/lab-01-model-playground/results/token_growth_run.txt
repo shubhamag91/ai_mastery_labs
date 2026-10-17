@@ -1,0 +1,80 @@
+Turn 1: input_tokens=29
+  You: My name is Priya and I bought a Homiva kettle last week.
+  Claude: Hi Priya! Thanks for telling me about your new kettle. How can I help with it? For example, I can help with:
+
+- **Setup or first-use tips**, like cleaning it before the first boil
+- **Troubleshooting** if something isn't working right
+- **Care and maintenance**, like descaling
+- **Returns or warranty questions**, since you're still within the early window
+
+I don't have specific details about Homiva's models, so for model-specific features or warranty terms, the manual or Homiva's support team would be the best source. What's on your mind?
+
+Turn 2: input_tokens=226
+  You: It arrived with a cracked lid. What's your return policy on that?
+  Claude: Sorry about the cracked lid, Priya. I'm an AI assistant, not part of Homiva or the store you bought from, so I can't see their return policy or process a return. I don't want to guess at their terms.
+
+
+
+Turn 3: input_tokens=312
+  You: Okay. How many days do I have to request a return?
+  Claude: I don't know the exact number of days, because it depends on where you bought the kettle and I can't see their policy. Here's how to find out quickly:
+
+- **Check where you bought it.** The retailer's return policy page or your order confirmation email usually lists the window. If you bought through a marketplace like Amazon, the marketplace's policy often applies.
+- **Look for a "damaged on arrival" provision.** Some
+
+Turn 4: input_tokens=452
+  You: What's my name again?
+  Claude: Your name is Priya. 
+
+My last message got cut off. The point I was making is that many retailers have a separate, often more generous, policy for items that arrive damaged, so a cracked lid may qualify even if the standard return window is short. Since you bought the kettle last week, you're likely still in good shape, but I'd contact the seller soon and include photos of the crack and your order number.
+
+Turn 5: input_tokens=599
+  You: I also have a Kitchora air fryer. Does the same return window apply to it?
+  Claude: Not necessarily, and I can't say for sure. The return window depends on the seller's policy, not the brand, so a few things matter:
+
+- **Same retailer?** If you bought both from the same store, the general return window is often the same, but some retailers set different windows for different product categories.
+- **Different retailer?** Then each seller's policy applies separately.
+- **Purchase date.** The window usually starts at purchase or delivery, so if you bought the air fryer at a different time, its deadline will differ from the kettle's.
+
+Check your order confirmation or the seller's return policy page for each item. And if the air fryer has no problem, you may not need to worry about it. If it does have an issue, the same adv
+
+Turn 6: input_tokens=834
+  You: Which of my two products arrived damaged?
+  Claude: The Homiva kettle is the one that arrived damaged, since you told me its lid was cracked. You haven't mentioned any problems with the Kitchora air fryer, so as far as I know it's fine. If it also has damage or isn't working properly, let me know and we can look at that too.
+
+Turn 7: input_tokens=953
+  You: If I return the kettle, will I get a refund or does it have to be a replacement?
+  Claude: I can't say, Priya, because it depends on the seller's policy. Here's what's typical for an item that arrives damaged:
+
+- **Refund or replacement:** Many retailers let you choose, especially for damaged-on-arrival items. Some may offer a replacement first if the item is in stock, but you can usually ask for a refund.
+- **Warranty route:** If you go through Homiva rather than the retailer, they may only offer a replacement or repair, so check the warranty terms.
+- **Marketplace purchases:** Sellers on marketplaces like Amazon often have to offer a refund for damaged items, but this varies.
+
+When you contact the seller, say clearly which outcome you want. For example: "The kettle arrived with a cracked lid. I'd like a refund." Include photos of the crack and your
+
+Turn 8: input_tokens=1232
+  You: Summarize what we've discussed so far in two sentences.
+  Claude: You (Priya) bought a Homiva kettle last week that arrived with a cracked lid, and you also own a Kitchora air fryer that has no reported problems. I explained that I can't see any seller's return policy, so the return window and whether you get a refund or replacement depend on where you bought each item, and I suggested contacting the seller soon with photos of the crack and your order number.
+
+Turn 9: input_tokens=1371
+  You: One more thing - what was the first product I mentioned?
+  Claude: The first product you mentioned was the Homiva kettle, in your opening message. The Kitchora air fryer came up later.
+
+Turn 10: input_tokens=1426
+  You: Thanks, that's everything I needed.
+  Claude: You're welcome, Priya! I hope the seller sorts out the cracked lid quickly. Sending photos and your order number with your first message should help. Enjoy the new kettle once the replacement or refund is sorted.
+
+
+Saved to /Users/shubham/Projects/ai_mastery_labs/labs/lab-01-model-playground/results/token_growth.csv
+
+Input tokens per turn:
+  turn  1 | # 29
+  turn  2 | ######## 226
+  turn  3 | ########### 312
+  turn  4 | ################ 452
+  turn  5 | ##################### 599
+  turn  6 | ############################# 834
+  turn  7 | ################################# 953
+  turn  8 | ########################################### 1232
+  turn  9 | ################################################ 1371
+  turn 10 | ################################################## 1426
