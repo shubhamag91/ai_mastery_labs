@@ -48,14 +48,14 @@ The same principle applies to the code: every lab extends one package (`src/shop
 
 | # | Concept | In plain terms | Lab | Status |
 |---|---|---|---|---|
-| 1 | **Tokens** | Models read and charge in word-fragments, not words or characters. Explains pricing, limits, and why models miscount letters. | 1 | [ ] |
-| 2 | **Context window** | The model's entire working memory for one request. It has no memory between calls — everything it "knows" was pasted in this time. | 1 | [ ] |
-| 3 | **System vs. user prompt** | Standing instructions vs. the current question. Where you put text changes how strongly it's obeyed. | 1 | [ ] |
-| 4 | **Temperature & sampling** | The dial between predictable and creative. Why the same question gives different answers. | 1 | [ ] |
-| 5 | **Non-determinism** | Same input ≠ same output. The single biggest difference from every analytics tool you've used. | 1 | [ ] |
-| 6 | **Hallucination** | Models predict plausible text, not true text. Fluency and accuracy are unrelated. | 1 | [ ] |
-| 7 | **Model selection** | Big/small, fast/reasoning. Cost and quality trade against each other on every call. | 1, 10 | [ ] |
-| 8 | **Extended thinking** | Letting a model reason before answering. When it earns its cost and when it's waste. | 1 | [ ] |
+| 1 | **Tokens** | Models read and charge in word-fragments, not words or characters. Explains pricing, limits, and why models miscount letters. | 1 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
+| 2 | **Context window** | The model's entire working memory for one request. It has no memory between calls — everything it "knows" was pasted in this time. | 1 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
+| 3 | **System vs. user prompt** | Standing instructions vs. the current question. Where you put text changes how strongly it's obeyed. | 1 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
+| 4 | **Temperature & sampling** | The dial between predictable and creative. Why the same question gives different answers. | 1 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
+| 5 | **Non-determinism** | Same input ≠ same output. The single biggest difference from every analytics tool you've used. | 1 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
+| 6 | **Hallucination** | Models predict plausible text, not true text. Fluency and accuracy are unrelated. | 1 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
+| 7 | **Model selection** | Big/small, fast/reasoning. Cost and quality trade against each other on every call. | 1, 10 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
+| 8 | **Extended thinking** | Letting a model reason before answering. When it earns its cost and when it's waste. | 1 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
 
 ## Tier 2 — Getting reliable, usable output
 
@@ -88,7 +88,7 @@ The same principle applies to the code: every lab extends one package (`src/shop
 | 24 | **RAG** | Retrieve relevant text, paste it in, then answer. The dominant pattern in production AI. | 5 | [ ] |
 | 25 | **Grounding & faithfulness** | Did the answer come from the retrieved text, or did the model invent it? | 5 | [ ] |
 | 26 | **Long context vs. RAG** | When to paste the whole document vs. search it. Both work; costs differ enormously. | 5 | [ ] |
-| 53 | **Multimodal input** | Images, PDFs and audio as model input — and where information gets lost converting them. | 1, 2 | [ ] |
+| 53 | **Multimodal input** | Images, PDFs and audio as model input — and where information gets lost converting them. | 1, 2 | [x] [notes](../labs/lab-01-model-playground/NOTES.md) |
 
 ## Tier 4 — Making models act
 
